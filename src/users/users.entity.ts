@@ -9,11 +9,11 @@ export class UserEntity {
 
   version: number;
 
-  @Type(() => Date)
+  // @Type(() => Date)
   // @Transform(({ value }) => new Date(value).toString())
   createdAt: number;
 
-  @Type(() => Date)
+  // @Type(() => Date)
   // @Transform(({ value }) => new Date(value).toString())
   updatedAt: number;
 

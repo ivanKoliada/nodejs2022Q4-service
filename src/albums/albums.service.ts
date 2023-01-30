@@ -57,7 +57,7 @@ export class AlbumsService {
     // track.albumId === id ? (track.albumId = null) : track.albumId,
 
     db.favorites.albums = db.favorites.albums.filter(
-      (album) => album.id !== id,
+      (albumId) => albumId !== id,
     );
 
     return;

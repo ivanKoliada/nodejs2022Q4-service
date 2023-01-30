@@ -50,7 +50,7 @@ export class TracksService {
     db.tracks = db.tracks.filter((track) => track.id !== id);
 
     db.favorites.tracks = db.favorites.tracks.filter(
-      (track) => track.id !== id,
+      (trackId) => trackId !== id,
     );
 
     return;

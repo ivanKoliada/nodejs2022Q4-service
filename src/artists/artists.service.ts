@@ -68,7 +68,7 @@ export class ArtistsService {
     );
 
     db.favorites.artists = db.favorites.artists.filter(
-      (artist) => artist.id !== id,
+      (artistId) => artistId !== id,
     );
 
     return;

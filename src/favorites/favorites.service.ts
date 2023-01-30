@@ -23,6 +23,8 @@ export class FavoritesService {
   async addTrackToFavorite(id: string) {
     const track = db.tracks.find((track) => track.id === id);
 
+    if (!track) return;
+
     db.favorites.tracks = [...db.favorites.tracks, track.id];
 
     return track;
@@ -30,6 +32,8 @@ export class FavoritesService {
 
   async addAlbumToFavorite(id: string) {
     const album = db.albums.find((album) => album.id === id);
+
+    if (!album) return;
 
     db.favorites.albums = [...db.favorites.albums, album.id];
 
@@ -39,36 +43,44 @@ export class FavoritesService {
   async addArtistToFavorite(id: string) {
     const artist = db.artists.find((artist) => artist.id === id);
 
+    if (!artist) return;
+
     db.favorites.artists = [...db.favorites.artists, artist.id];
 
     return artist;
   }
 
   async deleteTrackFromFavorites(id: string) {
-    const track = db.favorites.tracks.find((track) => track.id === id);
+    const track = db.tracks.find((track) => track.id === id);
+
+    if (!track) return;
 
     db.favorites.tracks = db.favorites.tracks.filter(
-      (track) => track.id !== id,
+      (trackId) => trackId !== id,
     );
 
     return track;
   }
 
   async deleteAlbumFromFavorites(id: string) {
-    const album = db.favorites.albums.find((album) => album.id === id);
+    const album = db.albums.find((album) => album.id === id);
+
+    if (!album) return;
 
     db.favorites.albums = db.favorites.albums.filter(
-      (album) => album.id !== id,
+      (albumId) => albumId !== id,
     );
 
     return album;
   }
 
   async deleteArtistFromFavorites(id: string) {
-    const artist = db.favorites.artists.find((artist) => artist.id === id);
+    const artist = db.artists.find((artist) => artist.id === id);
+
+    if (!artist) return;
 
     db.favorites.artists = db.favorites.artists.filter(
-      (artist) => artist.id !== id,
+      (artistId) => artistId !== id,
     );
 
     return artist;
