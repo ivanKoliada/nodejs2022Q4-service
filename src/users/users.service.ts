@@ -7,20 +7,13 @@ import { v4 as uuid } from 'uuid';
 @Injectable()
 export class UsersService {
   async getUsers(): Promise<Omit<UserEntity, 'password'>[]> {
-    const users = await db.users;
-
-    return users.map((user) => {
-      const { password, ...rest } = user;
-
-      return rest;
-    });
+    return await db.users;
   }
 
   async getUser(id: string): Promise<Omit<UserEntity, 'password'>> {
     const user = await db.users.find((user) => user.id === id);
-    const { password, ...rest } = user;
 
-    return rest;
+    return user;
   }
 
   async createUser(
@@ -36,9 +29,7 @@ export class UsersService {
 
     db.users = [...db.users, newUser];
 
-    const { password, ...rest } = newUser;
-
-    return rest;
+    return newUser;
   }
 
   async updateUser(
@@ -59,9 +50,7 @@ export class UsersService {
 
       db.users[userIndex] = updatedUser;
 
-      const { password, ...rest } = updatedUser;
-
-      return rest;
+      return updatedUser;
     }
 
     return;

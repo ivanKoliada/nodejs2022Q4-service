@@ -29,7 +29,9 @@ export class AlbumsController {
     id: string,
   ) {
     const album = await this.albumsService.getAlbum(id);
+
     if (album) return album;
+
     throw new HttpException(MSG.ALBUM_NOT_FOUND, HttpStatus.NOT_FOUND);
   }
 
@@ -45,8 +47,10 @@ export class AlbumsController {
     @Body() updateAlbumDto: UpdateAlbumDto,
   ) {
     const album = await this.albumsService.getAlbum(id);
+
     if (!album)
       throw new HttpException(MSG.ALBUM_NOT_FOUND, HttpStatus.NOT_FOUND);
+
     return await this.albumsService.updateAlbum(id, updateAlbumDto);
   }
 
@@ -56,9 +60,12 @@ export class AlbumsController {
     id: string,
   ) {
     const album = await this.albumsService.getAlbum(id);
+
     if (!album)
       throw new HttpException(MSG.ALBUM_NOT_FOUND, HttpStatus.NOT_FOUND);
+
     await this.albumsService.deleteAlbum(id);
+
     throw new HttpException(MSG.NO_CONTENT, HttpStatus.NO_CONTENT);
   }
 }
