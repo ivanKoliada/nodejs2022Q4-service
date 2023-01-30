@@ -19,7 +19,7 @@ export class FavoritesService {
   async addAlbumToFavorite(id: string) {
     const album = db.albums.find((album) => album.id === id);
 
-    db.favorites.albums = [...db.favorites.tracks, album];
+    db.favorites.albums = [...db.favorites.albums, album];
 
     return album;
   }
