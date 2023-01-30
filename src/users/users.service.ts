@@ -43,7 +43,7 @@ export class UsersService {
     if (user && user.password === updatePasswordDto.oldPassword) {
       const updatedUser = {
         ...user,
-        version: user.version++,
+        version: user.version + 1,
         updatedAt: Date.now(),
         password: updatePasswordDto.newPassword,
       };
