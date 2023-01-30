@@ -3,7 +3,6 @@ import { db } from 'src/repository';
 import { AlbumEntity } from './albums.entity';
 import { v4 as uuid } from 'uuid';
 import { CreateAlbumDto, UpdateAlbumDto } from './albums.dto';
-import { tracksRoutes } from 'test/endpoints';
 
 @Injectable()
 export class AlbumsService {
