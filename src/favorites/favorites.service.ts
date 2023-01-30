@@ -5,13 +5,25 @@ import { FavoritesEntity } from './favorites.entity';
 @Injectable()
 export class FavoritesService {
   async getFavorites(): Promise<FavoritesEntity> {
-    return await db.favorites;
+    return {
+      artists: db.favorites.artists.map((artistId) =>
+        db.artists.find((artist) => artist.id === artistId),
+      ),
+
+      albums: db.favorites.albums.map((albumId) =>
+        db.albums.find((album) => album.id === albumId),
+      ),
+
+      tracks: db.favorites.tracks.map((trackId) =>
+        db.tracks.find((track) => track.id === trackId),
+      ),
+    };
   }
 
   async addTrackToFavorite(id: string) {
     const track = db.tracks.find((track) => track.id === id);
 
-    db.favorites.tracks = [...db.favorites.tracks, track];
+    db.favorites.tracks = [...db.favorites.tracks, track.id];
 
     return track;
   }
@@ -19,7 +31,7 @@ export class FavoritesService {
   async addAlbumToFavorite(id: string) {
     const album = db.albums.find((album) => album.id === id);
 
-    db.favorites.albums = [...db.favorites.albums, album];
+    db.favorites.albums = [...db.favorites.albums, album.id];
 
     return album;
   }
@@ -27,7 +39,7 @@ export class FavoritesService {
   async addArtistToFavorite(id: string) {
     const artist = db.artists.find((artist) => artist.id === id);
 
-    db.favorites.artists = [...db.favorites.artists, artist];
+    db.favorites.artists = [...db.favorites.artists, artist.id];
 
     return artist;
   }

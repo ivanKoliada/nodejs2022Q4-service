@@ -6,19 +6,17 @@ import { v4 as uuid } from 'uuid';
 
 @Injectable()
 export class UsersService {
-  async getUsers(): Promise<Omit<UserEntity, 'password'>[]> {
+  async getUsers(): Promise<UserEntity[]> {
     return await db.users;
   }
 
-  async getUser(id: string): Promise<Omit<UserEntity, 'password'>> {
+  async getUser(id: string): Promise<UserEntity> {
     const user = await db.users.find((user) => user.id === id);
 
     return user;
   }
 
-  async createUser(
-    createUserDto: CreateUserDto,
-  ): Promise<Omit<UserEntity, 'password'>> {
+  async createUser(createUserDto: CreateUserDto): Promise<UserEntity> {
     const newUser = {
       id: uuid(),
       version: 1,
@@ -35,7 +33,7 @@ export class UsersService {
   async updateUser(
     id: string,
     updatePasswordDto: UpdatePasswordDto,
-  ): Promise<Omit<UserEntity, 'password'>> {
+  ): Promise<UserEntity> {
     const user = await db.users.find((user) => user.id === id);
 
     const userIndex = db.users.findIndex((user) => user.id);
