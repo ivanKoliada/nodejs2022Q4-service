@@ -1,4 +1,6 @@
-export const db = {
+import { DBModel } from '../models';
+
+export const db: DBModel = {
   users: [],
   albums: [],
   artists: [],
