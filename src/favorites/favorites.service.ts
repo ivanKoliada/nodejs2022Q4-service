@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { db } from 'src/repository';
-import { EEntityName, TEntityName } from 'src/shared/interfaces';
 import { FavoritesEntity } from './favorites.entity';
 
 @Injectable()

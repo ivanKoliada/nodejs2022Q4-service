@@ -4,6 +4,7 @@ import { CreateArtistDto, UpdateArtistDto } from './artists.dto';
 import { ArtistEntity } from './artists.entity';
 import { v4 as uuid } from 'uuid';
 import { BasicService } from 'src/shared/basicService';
+import { DB_FIELD } from 'src/shared/constants';
 
 @Injectable()
 export class ArtistsService extends BasicService {
@@ -22,7 +23,7 @@ export class ArtistsService extends BasicService {
     id: string,
     updateArtistDto: UpdateArtistDto,
   ): Promise<ArtistEntity> {
-    const artist = await this.findOne(id, 'artists');
+    const artist = await this.findOne(id, DB_FIELD.ARTISTS);
     const artistIndex = db.artists.findIndex((artist) => artist.id);
 
     const updatedArtist = {

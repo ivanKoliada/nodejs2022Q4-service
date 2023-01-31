@@ -7,7 +7,7 @@ import {
   Post,
 } from '@nestjs/common';
 import { Delete, Param } from '@nestjs/common/decorators';
-import { ENTITY_NAME, MSG } from 'src/shared/constants';
+import { DB_FIELD, MSG } from 'src/shared/constants';
 import { FavoritesService } from './favorites.service';
 
 @Controller('favs')
@@ -23,7 +23,7 @@ export class FavoritesController {
   async addTrackToFavorite(@Param('id', new ParseUUIDPipe()) id: string) {
     const track = await this.favoritesService.addToFavorites(
       id,
-      ENTITY_NAME.TRACKS,
+      DB_FIELD.TRACKS,
     );
 
     if (track) {
@@ -40,7 +40,7 @@ export class FavoritesController {
   async addAlbumToFavorite(@Param('id', new ParseUUIDPipe()) id: string) {
     const album = await this.favoritesService.addToFavorites(
       id,
-      ENTITY_NAME.ALBUMS,
+      DB_FIELD.ALBUMS,
     );
 
     if (album) {
@@ -57,7 +57,7 @@ export class FavoritesController {
   async addArtistToFavorite(@Param('id', new ParseUUIDPipe()) id: string) {
     const artist = await this.favoritesService.addToFavorites(
       id,
-      ENTITY_NAME.ARTISTS,
+      DB_FIELD.ARTISTS,
     );
 
     if (artist) {
@@ -74,7 +74,7 @@ export class FavoritesController {
   async deleteTrackFromFavorites(@Param('id', new ParseUUIDPipe()) id: string) {
     const track = await this.favoritesService.deleteFromFavorites(
       id,
-      ENTITY_NAME.TRACKS,
+      DB_FIELD.TRACKS,
     );
 
     if (track) {
@@ -88,7 +88,7 @@ export class FavoritesController {
   async deleteAlbumFromFavorites(@Param('id', new ParseUUIDPipe()) id: string) {
     const album = await this.favoritesService.deleteFromFavorites(
       id,
-      ENTITY_NAME.ALBUMS,
+      DB_FIELD.ALBUMS,
     );
 
     if (album) {
@@ -104,7 +104,7 @@ export class FavoritesController {
   ) {
     const artist = await this.favoritesService.deleteFromFavorites(
       id,
-      ENTITY_NAME.ARTISTS,
+      DB_FIELD.ARTISTS,
     );
 
     if (artist) {

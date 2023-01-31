@@ -10,7 +10,7 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { MSG } from 'src/shared/constants';
+import { DB_FIELD, MSG } from 'src/shared/constants';
 import { CreateArtistDto, UpdateArtistDto } from './artists.dto';
 import { ArtistsService } from './artists.service';
 
@@ -20,7 +20,7 @@ export class ArtistsController {
 
   @Get()
   async getArtists() {
-    return await this.artistsService.findAll('artists');
+    return await this.artistsService.findAll(DB_FIELD.ARTISTS);
   }
 
   @Get(':id')
@@ -28,7 +28,7 @@ export class ArtistsController {
     @Param('id', new ParseUUIDPipe())
     id: string,
   ) {
-    const artist = await this.artistsService.findOne(id, 'artists');
+    const artist = await this.artistsService.findOne(id, DB_FIELD.ARTISTS);
 
     if (artist) return artist;
 
@@ -46,7 +46,7 @@ export class ArtistsController {
     id: string,
     @Body() updateArtistDto: UpdateArtistDto,
   ) {
-    const artist = await this.artistsService.findOne(id, 'artists');
+    const artist = await this.artistsService.findOne(id, DB_FIELD.ARTISTS);
 
     if (!artist) {
       throw new HttpException(MSG.ARTIST_NOT_FOUND, HttpStatus.NOT_FOUND);
@@ -60,13 +60,13 @@ export class ArtistsController {
     @Param('id', new ParseUUIDPipe())
     id: string,
   ) {
-    const artist = await this.artistsService.findOne(id, 'artists');
+    const artist = await this.artistsService.findOne(id, DB_FIELD.ARTISTS);
 
     if (!artist) {
       throw new HttpException(MSG.ARTIST_NOT_FOUND, HttpStatus.NOT_FOUND);
     }
 
-    await this.artistsService.delete(id, 'artists');
+    await this.artistsService.delete(id, DB_FIELD.ARTISTS);
 
     throw new HttpException(MSG.NO_CONTENT, HttpStatus.NO_CONTENT);
   }

@@ -13,8 +13,8 @@ export const MSG = {
   ARTIST_DELETED: 'Artist has been successfully deleted from favorites',
 };
 
-export const ENTITY_NAME = {
+export const DB_FIELD = {
   ARTISTS: 'artists',
   ALBUMS: 'albums',
   TRACKS: 'tracks',
-} as const;
+};

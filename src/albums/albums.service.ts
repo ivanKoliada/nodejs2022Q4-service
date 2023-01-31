@@ -3,19 +3,11 @@ import { db } from 'src/repository';
 import { AlbumEntity } from './albums.entity';
 import { v4 as uuid } from 'uuid';
 import { CreateAlbumDto, UpdateAlbumDto } from './albums.dto';
+import { BasicService } from 'src/shared/basicService';
+import { DB_FIELD } from 'src/shared/constants';
 
 @Injectable()
-export class AlbumsService {
-  async getAlbums(): Promise<AlbumEntity[]> {
-    return await db.albums;
-  }
-
-  async getAlbum(id: string): Promise<AlbumEntity> {
-    const album = await db.albums.find((album) => album.id === id);
-
-    return album;
-  }
-
+export class AlbumsService extends BasicService {
   async createAlbum(createAlbumDto: CreateAlbumDto): Promise<AlbumEntity> {
     const newAlbum = {
       id: uuid(),
@@ -32,7 +24,7 @@ export class AlbumsService {
     id: string,
     updateAlbumDto: UpdateAlbumDto,
   ): Promise<AlbumEntity> {
-    const album = await this.getAlbum(id);
+    const album = await this.findOne(id, DB_FIELD.ALBUMS);
     const albumIndex = db.albums.findIndex((album) => album.id);
 
     const updatedAlbum = {
@@ -45,7 +37,7 @@ export class AlbumsService {
     return updatedAlbum;
   }
 
-  async deleteAlbum(id: string) {
+  async delete(id: string, field: string) {
     db.tracks.forEach((track) =>
       track.albumId === id ? (track.albumId = null) : track.albumId,
     );
@@ -54,8 +46,6 @@ export class AlbumsService {
       (albumId) => albumId !== id,
     );
 
-    db.albums = db.albums.filter((album) => album.id !== id);
-
-    return;
+    super.delete(id, field);
   }
 }

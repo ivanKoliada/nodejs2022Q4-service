@@ -10,7 +10,7 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { MSG } from 'src/shared/constants';
+import { DB_FIELD, MSG } from 'src/shared/constants';
 import { CreateAlbumDto, UpdateAlbumDto } from './albums.dto';
 import { AlbumsService } from './albums.service';
 
@@ -20,7 +20,7 @@ export class AlbumsController {
 
   @Get()
   async getAlbums() {
-    return await this.albumsService.getAlbums();
+    return await this.albumsService.findAll(DB_FIELD.ALBUMS);
   }
 
   @Get(':id')
@@ -28,7 +28,7 @@ export class AlbumsController {
     @Param('id', new ParseUUIDPipe())
     id: string,
   ) {
-    const album = await this.albumsService.getAlbum(id);
+    const album = await this.albumsService.findOne(id, DB_FIELD.ALBUMS);
 
     if (album) return album;
 
@@ -46,7 +46,7 @@ export class AlbumsController {
     id: string,
     @Body() updateAlbumDto: UpdateAlbumDto,
   ) {
-    const album = await this.albumsService.getAlbum(id);
+    const album = await this.albumsService.findOne(id, DB_FIELD.ALBUMS);
 
     if (!album) {
       throw new HttpException(MSG.ALBUM_NOT_FOUND, HttpStatus.NOT_FOUND);
@@ -60,13 +60,13 @@ export class AlbumsController {
     @Param('id', new ParseUUIDPipe())
     id: string,
   ) {
-    const album = await this.albumsService.getAlbum(id);
+    const album = await this.albumsService.findOne(id, DB_FIELD.ALBUMS);
 
     if (!album) {
       throw new HttpException(MSG.ALBUM_NOT_FOUND, HttpStatus.NOT_FOUND);
     }
 
-    await this.albumsService.deleteAlbum(id);
+    await this.albumsService.delete(id, DB_FIELD.ALBUMS);
 
     throw new HttpException(MSG.NO_CONTENT, HttpStatus.NO_CONTENT);
   }

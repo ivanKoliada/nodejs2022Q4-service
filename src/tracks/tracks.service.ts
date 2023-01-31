@@ -3,19 +3,11 @@ import { db } from 'src/repository';
 import { CreateTrackDto, UpdateTrackDto } from './tracks.dto';
 import { TrackEntity } from './tracks.entity';
 import { v4 as uuid } from 'uuid';
+import { BasicService } from 'src/shared/basicService';
+import { DB_FIELD } from 'src/shared/constants';
 
 @Injectable()
-export class TracksService {
-  async getTracks(): Promise<TrackEntity[]> {
-    return await db.tracks;
-  }
-
-  async getTrack(id: string): Promise<TrackEntity> {
-    const track = await db.tracks.find((track) => track.id === id);
-
-    return track;
-  }
-
+export class TracksService extends BasicService {
   async createTrack(createTrackDto: CreateTrackDto): Promise<TrackEntity> {
     const newTrack = {
       id: uuid(),
@@ -33,7 +25,7 @@ export class TracksService {
     id: string,
     updateTrackDto: UpdateTrackDto,
   ): Promise<TrackEntity> {
-    const track = await this.getTrack(id);
+    const track = await this.findOne(id, DB_FIELD.TRACKS);
     const trackIndex = db.tracks.findIndex((track) => track.id);
 
     const updatedTrack = {
@@ -46,13 +38,11 @@ export class TracksService {
     return updatedTrack;
   }
 
-  async deleteTrack(id: string) {
-    db.tracks = db.tracks.filter((track) => track.id !== id);
-
+  async delete(id: string, field: string) {
     db.favorites.tracks = db.favorites.tracks.filter(
       (trackId) => trackId !== id,
     );
 
-    return;
+    super.delete(id, field);
   }
 }

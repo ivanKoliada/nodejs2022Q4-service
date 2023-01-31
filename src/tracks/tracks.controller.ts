@@ -10,7 +10,7 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { MSG } from 'src/shared/constants';
+import { DB_FIELD, MSG } from 'src/shared/constants';
 import { CreateTrackDto, UpdateTrackDto } from './tracks.dto';
 import { TracksService } from './tracks.service';
 
@@ -20,7 +20,7 @@ export class TracksController {
 
   @Get()
   async getTracks() {
-    return await this.tracksService.getTracks();
+    return await this.tracksService.findAll(DB_FIELD.TRACKS);
   }
 
   @Get(':id')
@@ -28,7 +28,7 @@ export class TracksController {
     @Param('id', new ParseUUIDPipe())
     id: string,
   ) {
-    const track = await this.tracksService.getTrack(id);
+    const track = await this.tracksService.findOne(id, DB_FIELD.TRACKS);
 
     if (track) return track;
 
@@ -46,7 +46,7 @@ export class TracksController {
     id: string,
     @Body() updateTrackDto: UpdateTrackDto,
   ) {
-    const track = await this.tracksService.getTrack(id);
+    const track = await this.tracksService.findOne(id, DB_FIELD.TRACKS);
 
     if (!track) {
       throw new HttpException(MSG.TRACK_NOT_FOUND, HttpStatus.NOT_FOUND);
@@ -60,13 +60,13 @@ export class TracksController {
     @Param('id', new ParseUUIDPipe())
     id: string,
   ) {
-    const track = await this.tracksService.getTrack(id);
+    const track = await this.tracksService.findOne(id, DB_FIELD.TRACKS);
 
     if (!track) {
       throw new HttpException(MSG.TRACK_NOT_FOUND, HttpStatus.NOT_FOUND);
     }
 
-    await this.tracksService.deleteTrack(id);
+    await this.tracksService.delete(id, DB_FIELD.TRACKS);
 
     throw new HttpException(MSG.NO_CONTENT, HttpStatus.NO_CONTENT);
   }
