@@ -25,6 +25,7 @@ export class UsersController {
   @Get()
   async getUsers() {
     const users = await this.usersService.getUsers();
+
     return users.map((user) => new UserEntity(user));
   }
 
@@ -55,16 +56,18 @@ export class UsersController {
   ) {
     const user = await this.usersService.getUser(id);
 
-    if (!user)
+    if (!user) {
       throw new HttpException(MSG.USER_NOT_FOUND, HttpStatus.NOT_FOUND);
+    }
 
     const updatedUser = await this.usersService.updateUser(
       id,
       updatePasswordDto,
     );
 
-    if (!updatedUser)
+    if (!updatedUser) {
       throw new HttpException(MSG.WRONG_PASSWORD, HttpStatus.FORBIDDEN);
+    }
 
     return new UserEntity(updatedUser);
   }
@@ -76,8 +79,9 @@ export class UsersController {
   ) {
     const user = await this.usersService.getUser(id);
 
-    if (!user)
+    if (!user) {
       throw new HttpException(MSG.USER_NOT_FOUND, HttpStatus.NOT_FOUND);
+    }
 
     await this.usersService.deleteUser(id);
 

@@ -48,8 +48,9 @@ export class ArtistsController {
   ) {
     const artist = await this.artistsService.getArtist(id);
 
-    if (!artist)
+    if (!artist) {
       throw new HttpException(MSG.ARTIST_NOT_FOUND, HttpStatus.NOT_FOUND);
+    }
 
     return await this.artistsService.updateArtist(id, updateArtistDto);
   }
@@ -61,8 +62,9 @@ export class ArtistsController {
   ) {
     const artist = await this.artistsService.getArtist(id);
 
-    if (!artist)
+    if (!artist) {
       throw new HttpException(MSG.ARTIST_NOT_FOUND, HttpStatus.NOT_FOUND);
+    }
 
     await this.artistsService.deleteArtist(id);
 

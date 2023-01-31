@@ -48,8 +48,9 @@ export class TracksController {
   ) {
     const track = await this.tracksService.getTrack(id);
 
-    if (!track)
+    if (!track) {
       throw new HttpException(MSG.TRACK_NOT_FOUND, HttpStatus.NOT_FOUND);
+    }
 
     return await this.tracksService.updateTrack(id, updateTrackDto);
   }
@@ -61,8 +62,9 @@ export class TracksController {
   ) {
     const track = await this.tracksService.getTrack(id);
 
-    if (!track)
+    if (!track) {
       throw new HttpException(MSG.TRACK_NOT_FOUND, HttpStatus.NOT_FOUND);
+    }
 
     await this.tracksService.deleteTrack(id);
 

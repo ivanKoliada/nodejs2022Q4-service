@@ -48,8 +48,9 @@ export class AlbumsController {
   ) {
     const album = await this.albumsService.getAlbum(id);
 
-    if (!album)
+    if (!album) {
       throw new HttpException(MSG.ALBUM_NOT_FOUND, HttpStatus.NOT_FOUND);
+    }
 
     return await this.albumsService.updateAlbum(id, updateAlbumDto);
   }
