@@ -12,7 +12,7 @@ import {
   Put,
   UseInterceptors,
 } from '@nestjs/common';
-import { MSG } from 'src/constants';
+import { MSG } from 'src/shared/constants';
 import { CreateUserDto, UpdatePasswordDto } from './users.dto';
 import { UserEntity } from './users.entity';
 import { UsersService } from './users.service';

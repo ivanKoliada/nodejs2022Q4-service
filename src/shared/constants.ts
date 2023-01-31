@@ -17,4 +17,4 @@ export const ENTITY_NAME = {
   ARTISTS: 'artists',
   ALBUMS: 'albums',
   TRACKS: 'tracks',
-};
+} as const;

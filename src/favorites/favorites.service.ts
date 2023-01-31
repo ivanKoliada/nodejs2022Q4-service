@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { db } from 'src/repository';
+import { EEntityName, TEntityName } from 'src/shared/interfaces';
 import { FavoritesEntity } from './favorites.entity';
 
 @Injectable()
@@ -12,22 +13,22 @@ export class FavoritesService {
     };
   }
 
-  async addToFavorites(id: string, entity: string) {
-    const item = db[entity].find((el) => el.id === id);
+  async addToFavorites(id: string, field: string) {
+    const item = db[field].find((el) => el.id === id);
 
     if (!item) return;
 
-    db.favorites[entity] = [...db.favorites[entity], item.id];
+    db.favorites[field] = [...db.favorites[field], item.id];
 
     return item;
   }
 
-  async deleteFromFavorites(id: string, entity: string) {
-    const item = db[entity].find((el) => el.id === id);
+  async deleteFromFavorites(id: string, field: string) {
+    const item = db[field].find((el) => el.id === id);
 
     if (!item) return;
 
-    db.favorites[entity] = db.favorites[entity].filter((_id) => _id !== id);
+    db.favorites[field] = db.favorites[field].filter((_id) => _id !== id);
 
     return item;
   }

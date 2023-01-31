@@ -5,10 +5,9 @@ import {
   HttpStatus,
   ParseUUIDPipe,
   Post,
-  Put,
 } from '@nestjs/common';
 import { Delete, Param } from '@nestjs/common/decorators';
-import { ENTITY_NAME, MSG } from 'src/constants';
+import { ENTITY_NAME, MSG } from 'src/shared/constants';
 import { FavoritesService } from './favorites.service';
 
 @Controller('favs')

@@ -1,6 +1,6 @@
-import { DBModel } from '../models';
+import { IDb } from 'src/shared/interfaces';
 
-export const db: DBModel = {
+export const db: IDb = {
   users: [],
   albums: [],
   artists: [],

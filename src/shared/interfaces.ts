@@ -3,7 +3,7 @@ import { ArtistEntity } from 'src/artists/artists.entity';
 import { TrackEntity } from 'src/tracks/tracks.entity';
 import { UserEntity } from 'src/users/users.entity';
 
-export interface DBModel {
+export interface IDb {
   users: UserEntity[];
   tracks: TrackEntity[];
   artists: ArtistEntity[];
@@ -13,4 +13,12 @@ export interface DBModel {
     artists: string[];
     albums: string[];
   };
+}
+
+export type TEntityName = 'albums' | 'artists' | 'tracks';
+
+export enum EEntityName {
+  ARTISTS = 'artists',
+  ALBUMS = 'albums',
+  TRACKS = 'tracks',
 }

@@ -10,7 +10,7 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { MSG } from 'src/constants';
+import { MSG } from 'src/shared/constants';
 import { CreateArtistDto, UpdateArtistDto } from './artists.dto';
 import { ArtistsService } from './artists.service';
 

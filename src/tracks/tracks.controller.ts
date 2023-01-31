@@ -10,7 +10,7 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { MSG } from 'src/constants';
+import { MSG } from 'src/shared/constants';
 import { CreateTrackDto, UpdateTrackDto } from './tracks.dto';
 import { TracksService } from './tracks.service';
 
