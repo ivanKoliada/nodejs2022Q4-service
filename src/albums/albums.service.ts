@@ -46,12 +46,9 @@ export class AlbumsService {
   }
 
   async deleteAlbum(id: string) {
-    db.tracks = db.tracks.map((track) => {
-      return {
-        ...track,
-        albumId: track.albumId === id ? null : track.albumId,
-      };
-    });
+    db.tracks.forEach((track) =>
+      track.albumId === id ? (track.albumId = null) : track.albumId,
+    );
 
     db.favorites.albums = db.favorites.albums.filter(
       (albumId) => albumId !== id,

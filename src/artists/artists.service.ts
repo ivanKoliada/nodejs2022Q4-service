@@ -45,19 +45,13 @@ export class ArtistsService {
   }
 
   async deleteArtist(id: string) {
-    db.tracks = db.tracks.map((track) => {
-      return {
-        ...track,
-        artistId: track.artistId === id ? null : track.artistId,
-      };
-    });
+    db.tracks.forEach((track) =>
+      track.artistId === id ? (track.artistId = null) : track.artistId,
+    );
 
-    db.albums = db.albums.map((album) => {
-      return {
-        ...album,
-        artistId: album.artistId === id ? null : album.artistId,
-      };
-    });
+    db.albums.forEach((album) =>
+      album.artistId === id ? (album.artistId = null) : album.artistId,
+    );
 
     db.favorites.artists = db.favorites.artists.filter(
       (artistId) => artistId !== id,
