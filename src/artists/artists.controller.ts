@@ -20,7 +20,7 @@ export class ArtistsController {
 
   @Get()
   async getArtists() {
-    return await this.artistsService.getArtists();
+    return await this.artistsService.findAll('artists');
   }
 
   @Get(':id')
@@ -28,7 +28,7 @@ export class ArtistsController {
     @Param('id', new ParseUUIDPipe())
     id: string,
   ) {
-    const artist = await this.artistsService.getArtist(id);
+    const artist = await this.artistsService.findOne(id, 'artists');
 
     if (artist) return artist;
 
@@ -46,7 +46,7 @@ export class ArtistsController {
     id: string,
     @Body() updateArtistDto: UpdateArtistDto,
   ) {
-    const artist = await this.artistsService.getArtist(id);
+    const artist = await this.artistsService.findOne(id, 'artists');
 
     if (!artist) {
       throw new HttpException(MSG.ARTIST_NOT_FOUND, HttpStatus.NOT_FOUND);
@@ -60,13 +60,13 @@ export class ArtistsController {
     @Param('id', new ParseUUIDPipe())
     id: string,
   ) {
-    const artist = await this.artistsService.getArtist(id);
+    const artist = await this.artistsService.findOne(id, 'artists');
 
     if (!artist) {
       throw new HttpException(MSG.ARTIST_NOT_FOUND, HttpStatus.NOT_FOUND);
     }
 
-    await this.artistsService.deleteArtist(id);
+    await this.artistsService.delete(id, 'artists');
 
     throw new HttpException(MSG.NO_CONTENT, HttpStatus.NO_CONTENT);
   }

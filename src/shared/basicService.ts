@@ -11,13 +11,13 @@ export class BasicService {
   }
 
   async findOne(
-    field: string,
     id: string,
+    field: string,
   ): Promise<ArtistEntity | AlbumEntity | TrackEntity> {
     return await db[field].find((item) => item.id === id);
   }
 
-  async delete(field: string, id: string) {
+  async delete(id: string, field: string) {
     db[field] = db[field].filter((item) => item.id !== id);
 
     return;

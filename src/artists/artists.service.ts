@@ -3,19 +3,10 @@ import { db } from 'src/repository';
 import { CreateArtistDto, UpdateArtistDto } from './artists.dto';
 import { ArtistEntity } from './artists.entity';
 import { v4 as uuid } from 'uuid';
+import { BasicService } from 'src/shared/basicService';
 
 @Injectable()
-export class ArtistsService {
-  async getArtists(): Promise<ArtistEntity[]> {
-    return await db.artists;
-  }
-
-  async getArtist(id: string): Promise<ArtistEntity> {
-    const artist = await db.artists.find((artist) => artist.id === id);
-
-    return artist;
-  }
-
+export class ArtistsService extends BasicService {
   async createArtist(createArtistDto: CreateArtistDto): Promise<ArtistEntity> {
     const newArtist = {
       id: uuid(),
@@ -31,7 +22,7 @@ export class ArtistsService {
     id: string,
     updateArtistDto: UpdateArtistDto,
   ): Promise<ArtistEntity> {
-    const artist = await this.getArtist(id);
+    const artist = await this.findOne(id, 'artists');
     const artistIndex = db.artists.findIndex((artist) => artist.id);
 
     const updatedArtist = {
@@ -44,7 +35,7 @@ export class ArtistsService {
     return updatedArtist;
   }
 
-  async deleteArtist(id: string) {
+  async delete(id: string, field: string) {
     db.tracks.forEach((track) =>
       track.artistId === id ? (track.artistId = null) : track.artistId,
     );
@@ -57,8 +48,6 @@ export class ArtistsService {
       (artistId) => artistId !== id,
     );
 
-    db.artists = db.artists.filter((artist) => artist.id !== id);
-
-    return;
+    super.delete(id, field);
   }
 }
