@@ -8,7 +8,7 @@ import {
   Put,
 } from '@nestjs/common';
 import { Delete, Param } from '@nestjs/common/decorators';
-import { MSG } from 'src/constants';
+import { ENTITY_NAME, MSG } from 'src/constants';
 import { FavoritesService } from './favorites.service';
 
 @Controller('favs')
@@ -22,7 +22,10 @@ export class FavoritesController {
 
   @Post('track/:id')
   async addTrackToFavorite(@Param('id', new ParseUUIDPipe()) id: string) {
-    const track = await this.favoritesService.addTrackToFavorite(id);
+    const track = await this.favoritesService.addToFavorites(
+      id,
+      ENTITY_NAME.TRACKS,
+    );
 
     if (track) {
       throw new HttpException(MSG.TRACK_ADDED, HttpStatus.CREATED);
@@ -36,7 +39,10 @@ export class FavoritesController {
 
   @Post('album/:id')
   async addAlbumToFavorite(@Param('id', new ParseUUIDPipe()) id: string) {
-    const album = await this.favoritesService.addAlbumToFavorite(id);
+    const album = await this.favoritesService.addToFavorites(
+      id,
+      ENTITY_NAME.ALBUMS,
+    );
 
     if (album) {
       throw new HttpException(MSG.ALBUM_ADDED, HttpStatus.CREATED);
@@ -50,7 +56,10 @@ export class FavoritesController {
 
   @Post('artist/:id')
   async addArtistToFavorite(@Param('id', new ParseUUIDPipe()) id: string) {
-    const artist = await this.favoritesService.addArtistToFavorite(id);
+    const artist = await this.favoritesService.addToFavorites(
+      id,
+      ENTITY_NAME.ARTISTS,
+    );
 
     if (artist) {
       throw new HttpException(MSG.ARTIST_ADDED, HttpStatus.CREATED);
@@ -64,7 +73,10 @@ export class FavoritesController {
 
   @Delete('track/:id')
   async deleteTrackFromFavorites(@Param('id', new ParseUUIDPipe()) id: string) {
-    const track = await this.favoritesService.deleteTrackFromFavorites(id);
+    const track = await this.favoritesService.deleteFromFavorites(
+      id,
+      ENTITY_NAME.TRACKS,
+    );
 
     if (track) {
       throw new HttpException(MSG.TRACK_DELETED, HttpStatus.NO_CONTENT);
@@ -75,7 +87,10 @@ export class FavoritesController {
 
   @Delete('album/:id')
   async deleteAlbumFromFavorites(@Param('id', new ParseUUIDPipe()) id: string) {
-    const album = await this.favoritesService.deleteAlbumFromFavorites(id);
+    const album = await this.favoritesService.deleteFromFavorites(
+      id,
+      ENTITY_NAME.ALBUMS,
+    );
 
     if (album) {
       throw new HttpException(MSG.ALBUM_DELETED, HttpStatus.NO_CONTENT);
@@ -88,7 +103,10 @@ export class FavoritesController {
   async deleteArtistFromFavorites(
     @Param('id', new ParseUUIDPipe()) id: string,
   ) {
-    const artist = await this.favoritesService.deleteArtistFromFavorites(id);
+    const artist = await this.favoritesService.deleteFromFavorites(
+      id,
+      ENTITY_NAME.ARTISTS,
+    );
 
     if (artist) {
       throw new HttpException(MSG.ARTIST_DELETED, HttpStatus.NO_CONTENT);

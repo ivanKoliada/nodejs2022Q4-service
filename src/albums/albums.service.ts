@@ -46,19 +46,18 @@ export class AlbumsService {
   }
 
   async deleteAlbum(id: string) {
-    db.albums = db.albums.filter((album) => album.id !== id);
-
     db.tracks = db.tracks.map((track) => {
       return {
         ...track,
         albumId: track.albumId === id ? null : track.albumId,
       };
     });
-    // track.albumId === id ? (track.albumId = null) : track.albumId,
 
     db.favorites.albums = db.favorites.albums.filter(
       (albumId) => albumId !== id,
     );
+
+    db.albums = db.albums.filter((album) => album.id !== id);
 
     return;
   }

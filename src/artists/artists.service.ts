@@ -45,31 +45,25 @@ export class ArtistsService {
   }
 
   async deleteArtist(id: string) {
-    db.artists = db.artists.filter((artist) => artist.id !== id);
+    db.tracks = db.tracks.map((track) => {
+      return {
+        ...track,
+        artistId: track.artistId === id ? null : track.artistId,
+      };
+    });
 
-    db.tracks = db.tracks.map(
-      (track) => {
-        return {
-          ...track,
-          artistId: track.artistId === id ? null : track.artistId,
-        };
-      },
-      // track.artistId === id ? (track.artistId = null) : track.artistId,
-    );
-
-    db.albums = db.albums.map(
-      (album) => {
-        return {
-          ...album,
-          artistId: album.artistId === id ? null : album.artistId,
-        };
-      },
-      // album.artistId === id ? (album.artistId = null) : album.artistId,
-    );
+    db.albums = db.albums.map((album) => {
+      return {
+        ...album,
+        artistId: album.artistId === id ? null : album.artistId,
+      };
+    });
 
     db.favorites.artists = db.favorites.artists.filter(
       (artistId) => artistId !== id,
     );
+
+    db.artists = db.artists.filter((artist) => artist.id !== id);
 
     return;
   }

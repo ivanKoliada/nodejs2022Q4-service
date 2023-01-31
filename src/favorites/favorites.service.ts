@@ -6,83 +6,29 @@ import { FavoritesEntity } from './favorites.entity';
 export class FavoritesService {
   async getFavorites(): Promise<FavoritesEntity> {
     return {
-      artists: db.favorites.artists.map((artistId) =>
-        db.artists.find((artist) => artist.id === artistId),
-      ),
-
-      albums: db.favorites.albums.map((albumId) =>
-        db.albums.find((album) => album.id === albumId),
-      ),
-
-      tracks: db.favorites.tracks.map((trackId) =>
-        db.tracks.find((track) => track.id === trackId),
-      ),
+      artists: db.artists.filter(({ id }) => db.favorites.artists.includes(id)),
+      albums: db.albums.filter(({ id }) => db.favorites.albums.includes(id)),
+      tracks: db.tracks.filter(({ id }) => db.favorites.tracks.includes(id)),
     };
   }
 
-  async addTrackToFavorite(id: string) {
-    const track = db.tracks.find((track) => track.id === id);
+  async addToFavorites(id: string, entity: string) {
+    const item = db[entity].find((el) => el.id === id);
 
-    if (!track) return;
+    if (!item) return;
 
-    db.favorites.tracks = [...db.favorites.tracks, track.id];
+    db.favorites[entity] = [...db.favorites[entity], item.id];
 
-    return track;
+    return item;
   }
 
-  async addAlbumToFavorite(id: string) {
-    const album = db.albums.find((album) => album.id === id);
+  async deleteFromFavorites(id: string, entity: string) {
+    const item = db[entity].find((el) => el.id === id);
 
-    if (!album) return;
+    if (!item) return;
 
-    db.favorites.albums = [...db.favorites.albums, album.id];
+    db.favorites[entity] = db.favorites[entity].filter((_id) => _id !== id);
 
-    return album;
-  }
-
-  async addArtistToFavorite(id: string) {
-    const artist = db.artists.find((artist) => artist.id === id);
-
-    if (!artist) return;
-
-    db.favorites.artists = [...db.favorites.artists, artist.id];
-
-    return artist;
-  }
-
-  async deleteTrackFromFavorites(id: string) {
-    const track = db.tracks.find((track) => track.id === id);
-
-    if (!track) return;
-
-    db.favorites.tracks = db.favorites.tracks.filter(
-      (trackId) => trackId !== id,
-    );
-
-    return track;
-  }
-
-  async deleteAlbumFromFavorites(id: string) {
-    const album = db.albums.find((album) => album.id === id);
-
-    if (!album) return;
-
-    db.favorites.albums = db.favorites.albums.filter(
-      (albumId) => albumId !== id,
-    );
-
-    return album;
-  }
-
-  async deleteArtistFromFavorites(id: string) {
-    const artist = db.artists.find((artist) => artist.id === id);
-
-    if (!artist) return;
-
-    db.favorites.artists = db.favorites.artists.filter(
-      (artistId) => artistId !== id,
-    );
-
-    return artist;
+    return item;
   }
 }

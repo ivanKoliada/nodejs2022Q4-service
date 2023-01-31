@@ -12,3 +12,9 @@ export const MSG = {
   ALBUM_DELETED: 'Album has been successfully deleted from favorites',
   ARTIST_DELETED: 'Artist has been successfully deleted from favorites',
 };
+
+export const ENTITY_NAME = {
+  ARTISTS: 'artists',
+  ALBUMS: 'albums',
+  TRACKS: 'tracks',
+};
