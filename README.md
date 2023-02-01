@@ -1,31 +1,18 @@
 # Home Library Service
 
-## Prerequisites
+## Instractions:
 
-- Git - [Download & Install Git](https://git-scm.com/downloads).
-- Node.js - [Download & Install Node.js](https://nodejs.org/en/download/) and the npm package manager.
+- Make sure that you have v18 LTS Node installed
+- `git clone` https://github.com/ivanKoliada/nodejs2022Q4-service.git
+- Open your newly created folder with your code editor
+- Checkout `rest-service` branch
+- **Type** `npm i --force` **to install all dependencies.**
 
-## Downloading
+## Running application:
 
-```
-git clone {repository URL}
-```
-
-## Installing NPM modules
-
-```
-npm install
-```
-
-## Running application
-
-```
-npm start
-```
-
+- To start application run command `npm run start`.
 After starting the app on port (4000 as default) you can open
 in your browser OpenAPI documentation by typing http://localhost:4000/doc/.
-For more information about OpenAPI/Swagger please visit https://swagger.io/.
 
 ## Testing
 
@@ -64,9 +51,3 @@ npm run lint
 ```
 npm run format
 ```
-
-### Debugging in VSCode
-
-Press <kbd>F5</kbd> to debug.
-
-For more information, visit: https://code.visualstudio.com/docs/editor/debugging
