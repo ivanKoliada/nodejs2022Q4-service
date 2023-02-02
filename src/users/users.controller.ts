@@ -25,37 +25,37 @@ export class UsersController {
 
   @Get()
   async getUsers() {
-    const users = await this.usersService.getUsers();
+    const users =
+      (await this.usersService.getUsers()) as unknown as UserEntity[];
 
-    // return users.map((user) => new UserEntity(user));
-    return users;
+    return users.map((user) => new UserEntity(user));
   }
 
   @Get(':id')
   async getUser(
     @Param('id', new ParseUUIDPipe())
-    id,
+    id: string,
   ) {
-    const user = await this.usersService.getUser(id);
+    const user = (await this.usersService.getUser(id)) as unknown as UserEntity;
 
-    // if (user) return new UserEntity(user);
-    if (user) return user;
+    if (user) return new UserEntity(user);
 
     throw new HttpException(MSG.USER_NOT_FOUND, HttpStatus.NOT_FOUND);
   }
 
   @Post()
   async createUser(@Body() createUserDto: CreateUserDto) {
-    const user = await this.usersService.createUser(createUserDto);
+    const user = (await this.usersService.createUser(
+      createUserDto,
+    )) as unknown as UserEntity;
 
-    // return new UserEntity(user);
-    return user;
+    return new UserEntity(user);
   }
 
   @Put(':id')
   async updateUser(
     @Param('id', new ParseUUIDPipe())
-    id,
+    id: string,
     @Body() updatePasswordDto: UpdatePasswordDto,
   ) {
     const user = await this.usersService.getUser(id);
@@ -64,23 +64,22 @@ export class UsersController {
       throw new HttpException(MSG.USER_NOT_FOUND, HttpStatus.NOT_FOUND);
     }
 
-    const updatedUser = await this.usersService.updateUser(
+    const updatedUser = (await this.usersService.updateUser(
       id,
       updatePasswordDto,
-    );
+    )) as unknown as UserEntity;
 
     if (!updatedUser) {
       throw new HttpException(MSG.WRONG_PASSWORD, HttpStatus.FORBIDDEN);
     }
 
-    // return new UserEntity(updatedUser);
-    return updatedUser;
+    return new UserEntity(updatedUser);
   }
 
   @Delete(':id')
   async deleteUser(
     @Param('id', new ParseUUIDPipe())
-    id,
+    id: string,
   ) {
     const user = await this.usersService.getUser(id);
 

@@ -1,5 +1,5 @@
 import { User } from '@prisma/client';
-import { Exclude } from 'class-transformer';
+import { Exclude, Type } from 'class-transformer';
 
 export class UserEntity {
   id: string;
@@ -11,8 +11,10 @@ export class UserEntity {
 
   version: number;
 
+  @Type(() => Number)
   createdAt: number;
 
+  @Type(() => Number)
   updatedAt: number;
 
   constructor(partial: Partial<UserEntity>) {
