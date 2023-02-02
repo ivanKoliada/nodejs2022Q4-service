@@ -63,7 +63,9 @@ export class UsersService {
 
     if (user && user.password === updatePasswordDto.oldPassword) {
       return await this.prisma.user.update({
-        data: updatePasswordDto,
+        data: {
+          password: updatePasswordDto.newPassword,
+        },
         where: {
           id,
         },
