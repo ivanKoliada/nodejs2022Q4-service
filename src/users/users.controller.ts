@@ -12,6 +12,7 @@ import {
   Put,
   UseInterceptors,
 } from '@nestjs/common';
+import { Prisma } from '@prisma/client';
 import { MSG } from 'src/shared/constants';
 import { CreateUserDto, UpdatePasswordDto } from './users.dto';
 import { UserEntity } from './users.entity';
@@ -26,17 +27,19 @@ export class UsersController {
   async getUsers() {
     const users = await this.usersService.getUsers();
 
-    return users.map((user) => new UserEntity(user));
+    // return users.map((user) => new UserEntity(user));
+    return users;
   }
 
   @Get(':id')
   async getUser(
     @Param('id', new ParseUUIDPipe())
-    id: string,
+    id,
   ) {
     const user = await this.usersService.getUser(id);
 
-    if (user) return new UserEntity(user);
+    // if (user) return new UserEntity(user);
+    if (user) return user;
 
     throw new HttpException(MSG.USER_NOT_FOUND, HttpStatus.NOT_FOUND);
   }
@@ -45,13 +48,14 @@ export class UsersController {
   async createUser(@Body() createUserDto: CreateUserDto) {
     const user = await this.usersService.createUser(createUserDto);
 
-    return new UserEntity(user);
+    // return new UserEntity(user);
+    return user;
   }
 
   @Put(':id')
   async updateUser(
     @Param('id', new ParseUUIDPipe())
-    id: string,
+    id,
     @Body() updatePasswordDto: UpdatePasswordDto,
   ) {
     const user = await this.usersService.getUser(id);
@@ -69,13 +73,14 @@ export class UsersController {
       throw new HttpException(MSG.WRONG_PASSWORD, HttpStatus.FORBIDDEN);
     }
 
-    return new UserEntity(updatedUser);
+    // return new UserEntity(updatedUser);
+    return updatedUser;
   }
 
   @Delete(':id')
   async deleteUser(
     @Param('id', new ParseUUIDPipe())
-    id: string,
+    id,
   ) {
     const user = await this.usersService.getUser(id);
 
