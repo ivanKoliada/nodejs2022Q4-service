@@ -41,7 +41,7 @@ export class BasicService {
     id: string,
     data: UpdateAlbumDto | UpdateArtistDto | UpdateTrackDto,
     field: string,
-  ): Promise<ArtistEntity> {
+  ): Promise<ArtistEntity | AlbumEntity | TrackEntity> {
     return await this.prisma[field].update({
       where: {
         id,
