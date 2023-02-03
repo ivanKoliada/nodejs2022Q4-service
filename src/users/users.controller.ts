@@ -12,7 +12,6 @@ import {
   Put,
   UseInterceptors,
 } from '@nestjs/common';
-import { Prisma } from '@prisma/client';
 import { MSG } from 'src/shared/constants';
 import { CreateUserDto, UpdatePasswordDto } from './users.dto';
 import { UserEntity } from './users.entity';

@@ -10,12 +10,9 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
-import { PrismaService } from 'src/prisma/prisma.service';
-import { BasicService } from 'src/shared/basicService';
 import { DB_FIELD, MSG } from 'src/shared/constants';
 import { CreateArtistDto, UpdateArtistDto } from './artists.dto';
 import { ArtistsService } from './artists.service';
-// import { Prisma, Artist } from '@prisma/client';
 
 @Controller('artist')
 export class ArtistsController {
