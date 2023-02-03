@@ -22,8 +22,8 @@ model Track {
   artistId String? @unique
   albumId  String? @unique
   duration Int
-  album    Album?  @relation(fields: [albumId], references: [id])
-  artist   Artist? @relation(fields: [artistId], references: [id])
+  album    Album?  @relation(fields: [albumId], references: [id], onDelete: SetNull)
+  artist   Artist? @relation(fields: [artistId], references: [id], onDelete: SetNull)
 }
 
 model Album {
@@ -31,12 +31,12 @@ model Album {
   name     String
   year     Int
   artistId String? @unique
-  artist   Artist? @relation(fields: [artistId], references: [id])
+  artist   Artist? @relation(fields: [artistId], references: [id], onDelete: SetNull)
   Track    Track?
 }
 
 model Artist {
-  id     String  @id @unique
+  id     String  @id @unique @default(uuid())
   name   String
   grammy Boolean
   Album  Album?

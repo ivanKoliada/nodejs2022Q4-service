@@ -21,7 +21,7 @@ export class ArtistsService {
     });
   }
 
-  async createArtist(createArtistDto: CreateArtistDto): Promise<ArtistEntity> {
+  async createArtist(createArtistDto): Promise<ArtistEntity> {
     return await this.prisma.artist.create({
       data: createArtistDto,
     });
