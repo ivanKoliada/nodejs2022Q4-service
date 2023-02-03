@@ -23,7 +23,7 @@ export class FavoritesController {
   async addTrackToFavorite(@Param('id', new ParseUUIDPipe()) id: string) {
     const track = await this.favoritesService.addToFavorites(
       id,
-      DB_FIELD.TRACKS,
+      DB_FIELD.TRACK,
     );
 
     if (track) {
@@ -40,7 +40,7 @@ export class FavoritesController {
   async addAlbumToFavorite(@Param('id', new ParseUUIDPipe()) id: string) {
     const album = await this.favoritesService.addToFavorites(
       id,
-      DB_FIELD.ALBUMS,
+      DB_FIELD.ALBUM,
     );
 
     if (album) {
@@ -57,7 +57,7 @@ export class FavoritesController {
   async addArtistToFavorite(@Param('id', new ParseUUIDPipe()) id: string) {
     const artist = await this.favoritesService.addToFavorites(
       id,
-      DB_FIELD.ARTISTS,
+      DB_FIELD.ARTIST,
     );
 
     if (artist) {
@@ -74,7 +74,7 @@ export class FavoritesController {
   async deleteTrackFromFavorites(@Param('id', new ParseUUIDPipe()) id: string) {
     const track = await this.favoritesService.deleteFromFavorites(
       id,
-      DB_FIELD.TRACKS,
+      DB_FIELD.TRACK,
     );
 
     if (track) {
@@ -88,7 +88,7 @@ export class FavoritesController {
   async deleteAlbumFromFavorites(@Param('id', new ParseUUIDPipe()) id: string) {
     const album = await this.favoritesService.deleteFromFavorites(
       id,
-      DB_FIELD.ALBUMS,
+      DB_FIELD.ALBUM,
     );
 
     if (album) {
@@ -104,7 +104,7 @@ export class FavoritesController {
   ) {
     const artist = await this.favoritesService.deleteFromFavorites(
       id,
-      DB_FIELD.ARTISTS,
+      DB_FIELD.ARTIST,
     );
 
     if (artist) {

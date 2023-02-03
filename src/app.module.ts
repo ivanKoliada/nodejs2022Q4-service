@@ -8,6 +8,7 @@ import { TracksModule } from './tracks/tracks.module';
 import { UsersModule } from './users/users.module';
 import { FavoritesModule } from './favorites/favorites.module';
 import { PrismaModule } from './prisma/prisma.module';
+import { BasicModule } from './basic/basic.module';
 
 @Module({
   imports: [
@@ -18,6 +19,7 @@ import { PrismaModule } from './prisma/prisma.module';
     UsersModule,
     FavoritesModule,
     PrismaModule,
+    BasicModule,
   ],
   controllers: [AppController],
   providers: [AppService],

@@ -20,7 +20,7 @@ export class TracksController {
 
   @Get()
   async getTracks() {
-    return await this.tracksService.getAll();
+    return await this.tracksService.getAll(DB_FIELD.TRACK);
   }
 
   @Get(':id')
@@ -28,7 +28,7 @@ export class TracksController {
     @Param('id', new ParseUUIDPipe())
     id: string,
   ) {
-    const track = await this.tracksService.getById(id);
+    const track = await this.tracksService.getById(id, DB_FIELD.TRACK);
 
     if (track) return track;
 
@@ -37,7 +37,7 @@ export class TracksController {
 
   @Post()
   async createTrack(@Body() createTrackDto: CreateTrackDto) {
-    return await this.tracksService.createTrack(createTrackDto);
+    return await this.tracksService.create(createTrackDto, DB_FIELD.TRACK);
   }
 
   @Put(':id')
@@ -46,13 +46,13 @@ export class TracksController {
     id: string,
     @Body() updateTrackDto: UpdateTrackDto,
   ) {
-    const track = await this.tracksService.getById(id);
+    const track = await this.tracksService.getById(id, DB_FIELD.TRACK);
 
     if (!track) {
       throw new HttpException(MSG.TRACK_NOT_FOUND, HttpStatus.NOT_FOUND);
     }
 
-    return await this.tracksService.updateTrack(id, updateTrackDto);
+    return await this.tracksService.update(id, updateTrackDto, DB_FIELD.TRACK);
   }
 
   @Delete(':id')
@@ -60,13 +60,13 @@ export class TracksController {
     @Param('id', new ParseUUIDPipe())
     id: string,
   ) {
-    const track = await this.tracksService.getById(id);
+    const track = await this.tracksService.getById(id, DB_FIELD.TRACK);
 
     if (!track) {
       throw new HttpException(MSG.TRACK_NOT_FOUND, HttpStatus.NOT_FOUND);
     }
 
-    await this.tracksService.deleteTrack(id);
+    await this.tracksService.delete(id, DB_FIELD.TRACK);
 
     throw new HttpException(MSG.NO_CONTENT, HttpStatus.NO_CONTENT);
   }
