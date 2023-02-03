@@ -20,7 +20,7 @@ export class AlbumsController {
 
   @Get()
   async getAlbums() {
-    return await this.albumsService.findAll(DB_FIELD.ALBUMS);
+    return await this.albumsService.getAll();
   }
 
   @Get(':id')
@@ -28,7 +28,7 @@ export class AlbumsController {
     @Param('id', new ParseUUIDPipe())
     id: string,
   ) {
-    const album = await this.albumsService.findOne(id, DB_FIELD.ALBUMS);
+    const album = await this.albumsService.getById(id);
 
     if (album) return album;
 
@@ -46,7 +46,7 @@ export class AlbumsController {
     id: string,
     @Body() updateAlbumDto: UpdateAlbumDto,
   ) {
-    const album = await this.albumsService.findOne(id, DB_FIELD.ALBUMS);
+    const album = await this.albumsService.getById(id);
 
     if (!album) {
       throw new HttpException(MSG.ALBUM_NOT_FOUND, HttpStatus.NOT_FOUND);
@@ -60,13 +60,13 @@ export class AlbumsController {
     @Param('id', new ParseUUIDPipe())
     id: string,
   ) {
-    const album = await this.albumsService.findOne(id, DB_FIELD.ALBUMS);
+    const album = await this.albumsService.getById(id);
 
     if (!album) {
       throw new HttpException(MSG.ALBUM_NOT_FOUND, HttpStatus.NOT_FOUND);
     }
 
-    await this.albumsService.delete(id, DB_FIELD.ALBUMS);
+    await this.albumsService.deleteAlbum(id);
 
     throw new HttpException(MSG.NO_CONTENT, HttpStatus.NO_CONTENT);
   }

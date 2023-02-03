@@ -10,9 +10,12 @@ import {
   Post,
   Put,
 } from '@nestjs/common';
+import { PrismaService } from 'src/prisma/prisma.service';
+import { BasicService } from 'src/shared/basicService';
 import { DB_FIELD, MSG } from 'src/shared/constants';
 import { CreateArtistDto, UpdateArtistDto } from './artists.dto';
 import { ArtistsService } from './artists.service';
+// import { Prisma, Artist } from '@prisma/client';
 
 @Controller('artist')
 export class ArtistsController {
@@ -20,7 +23,7 @@ export class ArtistsController {
 
   @Get()
   async getArtists() {
-    return await this.artistsService.findAll(DB_FIELD.ARTISTS);
+    return await this.artistsService.getAll();
   }
 
   @Get(':id')
@@ -28,7 +31,7 @@ export class ArtistsController {
     @Param('id', new ParseUUIDPipe())
     id: string,
   ) {
-    const artist = await this.artistsService.findOne(id, DB_FIELD.ARTISTS);
+    const artist = await this.artistsService.getById(id);
 
     if (artist) return artist;
 
@@ -46,7 +49,7 @@ export class ArtistsController {
     id: string,
     @Body() updateArtistDto: UpdateArtistDto,
   ) {
-    const artist = await this.artistsService.findOne(id, DB_FIELD.ARTISTS);
+    const artist = await this.artistsService.getById(id);
 
     if (!artist) {
       throw new HttpException(MSG.ARTIST_NOT_FOUND, HttpStatus.NOT_FOUND);
@@ -60,13 +63,13 @@ export class ArtistsController {
     @Param('id', new ParseUUIDPipe())
     id: string,
   ) {
-    const artist = await this.artistsService.findOne(id, DB_FIELD.ARTISTS);
+    const artist = await this.artistsService.getById(id);
 
     if (!artist) {
       throw new HttpException(MSG.ARTIST_NOT_FOUND, HttpStatus.NOT_FOUND);
     }
 
-    await this.artistsService.delete(id, DB_FIELD.ARTISTS);
+    await this.artistsService.deleteArtist(id);
 
     throw new HttpException(MSG.NO_CONTENT, HttpStatus.NO_CONTENT);
   }

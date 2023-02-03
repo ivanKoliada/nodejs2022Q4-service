@@ -5,50 +5,43 @@ import { ArtistEntity } from './artists.entity';
 import { v4 as uuid } from 'uuid';
 import { BasicService } from 'src/shared/basicService';
 import { DB_FIELD } from 'src/shared/constants';
+import { PrismaService } from 'src/prisma/prisma.service';
 
 @Injectable()
-export class ArtistsService extends BasicService {
+export class ArtistsService {
+  constructor(private prisma: PrismaService) {}
+
+  async getAll(): Promise<ArtistEntity[]> {
+    return await this.prisma.artist.findMany();
+  }
+
+  async getById(id: string): Promise<ArtistEntity> {
+    return await this.prisma.artist.findUnique({
+      where: { id },
+    });
+  }
+
   async createArtist(createArtistDto: CreateArtistDto): Promise<ArtistEntity> {
-    const newArtist = {
-      id: uuid(),
-      ...createArtistDto,
-    };
-
-    db.artists = [...db.artists, newArtist];
-
-    return newArtist;
+    return await this.prisma.artist.create({
+      data: createArtistDto,
+    });
   }
 
   async updateArtist(
     id: string,
     updateArtistDto: UpdateArtistDto,
   ): Promise<ArtistEntity> {
-    const artist = await this.findOne(id, DB_FIELD.ARTISTS);
-    const artistIndex = db.artists.findIndex((artist) => artist.id);
-
-    const updatedArtist = {
-      ...artist,
-      ...updateArtistDto,
-    };
-
-    db.artists[artistIndex] = updatedArtist;
-
-    return updatedArtist;
+    return await this.prisma.artist.update({
+      where: {
+        id,
+      },
+      data: updateArtistDto,
+    });
   }
 
-  async delete(id: string, field: string) {
-    db.tracks.forEach((track) =>
-      track.artistId === id ? (track.artistId = null) : track.artistId,
-    );
-
-    db.albums.forEach((album) =>
-      album.artistId === id ? (album.artistId = null) : album.artistId,
-    );
-
-    db.favorites.artists = db.favorites.artists.filter(
-      (artistId) => artistId !== id,
-    );
-
-    super.delete(id, field);
+  async deleteArtist(id: string): Promise<ArtistEntity> {
+    return await this.prisma.artist.delete({
+      where: { id },
+    });
   }
 }

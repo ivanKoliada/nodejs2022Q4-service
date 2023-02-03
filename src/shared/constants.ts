@@ -14,7 +14,7 @@ export const MSG = {
 };
 
 export const DB_FIELD = {
-  ARTISTS: 'artists',
-  ALBUMS: 'albums',
-  TRACKS: 'tracks',
+  ARTISTS: 'artist',
+  ALBUMS: 'album',
+  TRACKS: 'track',
 };

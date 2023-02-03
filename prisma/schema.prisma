@@ -16,22 +16,14 @@ model User {
   updatedAt DateTime @updatedAt
 }
 
-model Artist {
-  id     String  @id @unique @default(uuid())
-  name   String
-  grammy Boolean
-  Track  Track?
-  Album  Album?
-}
-
 model Track {
   id       String  @id @unique @default(uuid())
   name     String
   artistId String? @unique
-  artist   Artist? @relation(fields: [artistId], references: [id])
   albumId  String? @unique
-  album    Album?  @relation(fields: [albumId], references: [id])
   duration Int
+  album    Album?  @relation(fields: [albumId], references: [id])
+  artist   Artist? @relation(fields: [artistId], references: [id])
 }
 
 model Album {
@@ -41,4 +33,12 @@ model Album {
   artistId String? @unique
   artist   Artist? @relation(fields: [artistId], references: [id])
   Track    Track?
+}
+
+model Artist {
+  id     String  @id @unique
+  name   String
+  grammy Boolean
+  Album  Album?
+  Track  Track?
 }

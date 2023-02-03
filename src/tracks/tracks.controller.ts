@@ -20,7 +20,7 @@ export class TracksController {
 
   @Get()
   async getTracks() {
-    return await this.tracksService.findAll(DB_FIELD.TRACKS);
+    return await this.tracksService.getAll();
   }
 
   @Get(':id')
@@ -28,7 +28,7 @@ export class TracksController {
     @Param('id', new ParseUUIDPipe())
     id: string,
   ) {
-    const track = await this.tracksService.findOne(id, DB_FIELD.TRACKS);
+    const track = await this.tracksService.getById(id);
 
     if (track) return track;
 
@@ -46,7 +46,7 @@ export class TracksController {
     id: string,
     @Body() updateTrackDto: UpdateTrackDto,
   ) {
-    const track = await this.tracksService.findOne(id, DB_FIELD.TRACKS);
+    const track = await this.tracksService.getById(id);
 
     if (!track) {
       throw new HttpException(MSG.TRACK_NOT_FOUND, HttpStatus.NOT_FOUND);
@@ -60,13 +60,13 @@ export class TracksController {
     @Param('id', new ParseUUIDPipe())
     id: string,
   ) {
-    const track = await this.tracksService.findOne(id, DB_FIELD.TRACKS);
+    const track = await this.tracksService.getById(id);
 
     if (!track) {
       throw new HttpException(MSG.TRACK_NOT_FOUND, HttpStatus.NOT_FOUND);
     }
 
-    await this.tracksService.delete(id, DB_FIELD.TRACKS);
+    await this.tracksService.deleteTrack(id);
 
     throw new HttpException(MSG.NO_CONTENT, HttpStatus.NO_CONTENT);
   }
