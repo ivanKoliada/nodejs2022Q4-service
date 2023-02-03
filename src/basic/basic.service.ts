@@ -1,7 +1,10 @@
 import { Injectable } from '@nestjs/common';
+import { CreateAlbumDto, UpdateAlbumDto } from 'src/albums/albums.dto';
 import { AlbumEntity } from 'src/albums/albums.entity';
+import { CreateArtistDto, UpdateArtistDto } from 'src/artists/artists.dto';
 import { ArtistEntity } from 'src/artists/artists.entity';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { CreateTrackDto, UpdateTrackDto } from 'src/tracks/tracks.dto';
 import { TrackEntity } from 'src/tracks/tracks.entity';
 
 @Injectable()
@@ -26,7 +29,7 @@ export class BasicService {
   }
 
   async create(
-    data,
+    data: CreateAlbumDto | CreateArtistDto | CreateTrackDto,
     field: string,
   ): Promise<ArtistEntity | AlbumEntity | TrackEntity> {
     return await this.prisma[field].create({
@@ -34,7 +37,11 @@ export class BasicService {
     });
   }
 
-  async update(id: string, data, field: string): Promise<ArtistEntity> {
+  async update(
+    id: string,
+    data: UpdateAlbumDto | UpdateArtistDto | UpdateTrackDto,
+    field: string,
+  ): Promise<ArtistEntity> {
     return await this.prisma[field].update({
       where: {
         id,
