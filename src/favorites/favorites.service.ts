@@ -76,24 +76,32 @@ export class FavoritesService {
   }
 
   async addToFavorites(id: string, field: string) {
-    return await this.prisma[field].update({
-      where: {
-        id: id,
-      },
-      data: {
-        favoritesId: NIL,
-      },
-    });
+    try {
+      return await this.prisma[field].update({
+        where: {
+          id: id,
+        },
+        data: {
+          favoritesId: NIL,
+        },
+      });
+    } catch (error) {
+      return;
+    }
   }
 
   async deleteFromFavorites(id: string, field: string) {
-    return await this.prisma[field].update({
-      where: {
-        id: id,
-      },
-      data: {
-        favoritesId: null,
-      },
-    });
+    try {
+      return await this.prisma[field].update({
+        where: {
+          id: id,
+        },
+        data: {
+          favoritesId: null,
+        },
+      });
+    } catch (error) {
+      return;
+    }
   }
 }
