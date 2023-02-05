@@ -6,7 +6,8 @@
 - `git clone` https://github.com/ivanKoliada/nodejs2022Q4-service.git
 - Open your newly created folder with your code editor
 - Checkout `rest-service` branch
-- **Type** `npm i --force` **to install all dependencies.**
+- **Type** `npm i` or `npm i --force` **to install all dependencies.**
+- Change `.env.example` to `.env`
 
 ## Running application:
 
