@@ -22,7 +22,7 @@
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "docker:build": "docker-compose build",
     "docker:start": "docker-compose up",
-    "docker:scan": "docker scan nodejs2022q4-app & docker scan nodejs2022q4-db"
+    "docker:scan": "docker scan nodejs2022q4-api & docker scan nodejs2022q4-database"
   },
   "dependencies": {
     "@nestjs/common": "^8.4.7",

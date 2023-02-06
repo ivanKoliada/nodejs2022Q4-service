@@ -1,43 +1,42 @@
 version: '3.8'
 
 services:
-  app:
-    container_name: app
+  api:
+    container_name: api
     build:
       context: .
-      dockerfile: ./docker/app/Dockerfile
-    restart: always
+      dockerfile: ./docker/api/Dockerfile
+    restart: unless-stopped
     env_file:
       - .env
     ports:
       - ${PORT}:${PORT}
     depends_on:
-      - db
+      - database
     volumes:
       - ./:/app
-      - app-volume:/app/node_modules
+      - node:/app/node_modules
     networks:
-      - some-network
-  db:
-    container_name: db
+      - docker-network
+  database:
+    container_name: database
     build:
       context: .
-      dockerfile: ./docker/db/Dockerfile
-    restart: always
+      dockerfile: ./docker/database/Dockerfile
+    restart: unless-stopped
     env_file:
       - .env
     ports:
       - ${POSTGRES_PORT}:${POSTGRES_PORT}
     volumes:
-      - db-volume:/var/lib/postgresql/data
+      - data:/var/lib/postgresql/data
     networks:
-      - some-network
+      - docker-network
 
 volumes:
-  app-volume:
-  db-volume:
+  node:
+  data:
 
 networks:
-  some-network:
-    name: some-network
+  docker-network:
     driver: bridge
