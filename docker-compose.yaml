@@ -3,19 +3,20 @@ version: '3.8'
 services:
   app:
     container_name: app
-    build: 
+    build:
       context: .
       dockerfile: Dockerfile
     restart: always
-    env_file: 
+    env_file:
       - .env
-    ports: 
+    ports:
       - ${PORT}:${PORT}
-    depends_on: 
+    depends_on:
       - db
     volumes:
       - ./:/app
-    networks: 
+      - app-volume:/app/node_modules
+    networks:
       - some-network
   db:
     container_name: db
@@ -23,14 +24,20 @@ services:
       context: .
       dockerfile: ./docker/Dockerfile
     restart: always
-    env_file: 
+    env_file:
       - .env
     ports:
       - ${POSTGRES_PORT}:${POSTGRES_PORT}
-    networks: 
+    volumes:
+      - db-volume:/var/lib/postgresql/data
+    networks:
       - some-network
-        
-networks: 
+
+volumes:
+  app-volume:
+  db-volume:
+
+networks:
   some-network:
     name: some-network
     driver: bridge

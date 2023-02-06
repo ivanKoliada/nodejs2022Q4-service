@@ -5,13 +5,12 @@ WORKDIR /app
 COPY package*.json ./
 
 RUN npm install
+# RUN npm ci & npm cache clean --force
 
 COPY . .
 
-RUN npx prisma generate
-
-RUN npm run build
+# RUN npx prisma generate
 
 EXPOSE ${PORT}
 
-CMD [ "node", "dist/main" ]
+CMD [ "npm", "run", "prisma:start" ]
