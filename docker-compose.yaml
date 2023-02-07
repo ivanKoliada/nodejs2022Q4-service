@@ -30,12 +30,14 @@ services:
       - ${POSTGRES_PORT}:${POSTGRES_PORT}
     volumes:
       - data:/var/lib/postgresql/data
+      - logs:/var/log/postgresql/postgresql.log
     networks:
       - docker-network
 
 volumes:
   node:
   data:
+  logs:
 
 networks:
   docker-network:
