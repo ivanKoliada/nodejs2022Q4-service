@@ -4,15 +4,15 @@
 
 # COPY package*.json ./
 
-# # RUN npm install
-# RUN npm ci && npm cache clean --force
+# RUN npm install
+# # RUN npm ci && npm cache clean --force
 
 # COPY . .
 
 # EXPOSE ${PORT}
 
 # CMD [ "npm", "run", "start:prisma" ]
-FROM node:alpine3.17 as build
+FROM node:gallium-alpine3.17 as build
 
 WORKDIR /app
 
@@ -22,11 +22,9 @@ RUN npm ci && npm cache clean --force
 
 COPY . .
 
-FROM node:alpine3.17
+FROM node:gallium-alpine3.17
 
 COPY --from=build /app /app
-
-WORKDIR /app
 
 EXPOSE ${PORT}
 

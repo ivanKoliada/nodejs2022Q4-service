@@ -5,8 +5,8 @@ services:
     container_name: api
     build:
       context: .
-      dockerfile: ./Dockerfile.api
-    restart: unless-stopped
+      dockerfile: ./Dockerfile
+    restart: always
     env_file:
       - .env
     ports:
@@ -22,8 +22,8 @@ services:
     container_name: database
     build:
       context: .
-      dockerfile: ./Dockerfile.database
-    restart: unless-stopped
+      dockerfile: ./database/Dockerfile
+    restart: always
     env_file:
       - .env
     ports:
