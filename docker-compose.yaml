@@ -1,11 +1,14 @@
-version: '3.8'
+version: '3.9'
 
 services:
   api:
     container_name: api
     build:
-      context: .
       dockerfile: ./Dockerfile
+      context: .
+    volumes:
+      - .:/app
+      - /app/node_modules
     restart: always
     env_file:
       - .env
@@ -13,24 +16,21 @@ services:
       - ${PORT}:${PORT}
     depends_on:
       - database
-    volumes:
-      - ./:/app
-      - node:/app/node_modules
     networks:
       - docker-network
   database:
     container_name: database
     build:
+      dockerfile: ./src/database/Dockerfile
       context: .
-      dockerfile: ./database/Dockerfile
+    volumes:
+      - data:/var/lib/postgresql/data
+      - logs:/var/log/postgresql/postgresql.log
     restart: always
     env_file:
       - .env
     ports:
       - ${POSTGRES_PORT}:${POSTGRES_PORT}
-    volumes:
-      - data:/var/lib/postgresql/data
-      - logs:/var/log/postgresql/postgresql.log
     networks:
       - docker-network
 

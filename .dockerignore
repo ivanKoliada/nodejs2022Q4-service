@@ -6,3 +6,4 @@ Dockerfile
 .gitignore
 README.md
 /test
+lib/

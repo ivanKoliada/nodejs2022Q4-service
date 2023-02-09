@@ -12,6 +12,7 @@
 # EXPOSE ${PORT}
 
 # CMD [ "npm", "run", "start:prisma" ]
+
 FROM node:gallium-alpine3.17 as build
 
 WORKDIR /app
@@ -24,7 +25,9 @@ COPY . .
 
 FROM node:gallium-alpine3.17
 
-COPY --from=build /app /app
+WORKDIR /app
+
+COPY --from=build /app .
 
 EXPOSE ${PORT}
 
