@@ -4,7 +4,7 @@ import { AlbumsController } from './albums.controller';
 import { AlbumsService } from './albums.service';
 
 @Module({
-  imports: [PrismaService],
+  imports: [],
   controllers: [AlbumsController],
   providers: [AlbumsService, PrismaService],
 })

@@ -4,7 +4,7 @@ import { TracksController } from './tracks.controller';
 import { TracksService } from './tracks.service';
 
 @Module({
-  imports: [PrismaService],
+  imports: [],
   controllers: [TracksController],
   providers: [TracksService, PrismaService],
 })
