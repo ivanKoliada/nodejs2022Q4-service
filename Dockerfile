@@ -4,9 +4,11 @@ WORKDIR /app
 
 COPY package*.json .
 
-RUN npm ci && npm cache clean --force
+RUN npm ci --omit=dev && npm cache clean --force
 
 COPY . .
+
+RUN npx prisma generate
 
 FROM node:gallium-alpine3.17
 
