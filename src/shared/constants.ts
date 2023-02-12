@@ -19,3 +19,5 @@ export const DB_FIELD = {
   ALBUM: 'album',
   TRACK: 'track',
 };
+
+export const isPublicAccess = 'isPublic';

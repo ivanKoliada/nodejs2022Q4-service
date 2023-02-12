@@ -14,11 +14,11 @@ import { UserEntity } from 'src/users/users.entity';
 import { AuthDto } from './auth.dto';
 import { AuthService } from './auth.service';
 
+@Public()
 @Controller('auth')
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @Public()
   @UseInterceptors(ClassSerializerInterceptor)
   @Post('signup')
   async signUp(@Body() authDto: AuthDto) {
@@ -29,7 +29,6 @@ export class AuthController {
     return new UserEntity(user);
   }
 
-  @Public()
   @Post('login')
   @HttpCode(HttpStatus.OK)
   async login(@Body() authDto: AuthDto) {
