@@ -11,6 +11,7 @@ export const MSG = {
   TRACK_DELETED: 'Track has been successfully deleted from favorites',
   ALBUM_DELETED: 'Album has been successfully deleted from favorites',
   ARTIST_DELETED: 'Artist has been successfully deleted from favorites',
+  ACCESS_DENIED: 'No user with such login or wrong password',
 };
 
 export const DB_FIELD = {

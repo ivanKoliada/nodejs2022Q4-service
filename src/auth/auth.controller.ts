@@ -1,4 +1,12 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  HttpCode,
+  HttpException,
+  HttpStatus,
+  Post,
+} from '@nestjs/common';
+import { MSG } from 'src/shared/constants';
 import { UserEntity } from 'src/users/users.entity';
 import { AuthDto } from './auth.dto';
 import { AuthService } from './auth.service';
@@ -14,5 +22,15 @@ export class AuthController {
     )) as unknown as UserEntity;
 
     return new UserEntity(user);
+  }
+
+  @Post('login')
+  @HttpCode(HttpStatus.OK)
+  async login(@Body() authDto: AuthDto) {
+    const token = await this.authService.login(authDto);
+
+    if (token) return token;
+
+    throw new HttpException(MSG.ACCESS_DENIED, HttpStatus.FORBIDDEN);
   }
 }
