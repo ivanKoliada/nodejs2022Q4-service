@@ -7,6 +7,7 @@ import {
   Post,
 } from '@nestjs/common';
 import { MSG } from 'src/shared/constants';
+import { Public } from 'src/shared/decorators';
 import { UserEntity } from 'src/users/users.entity';
 import { AuthDto } from './auth.dto';
 import { AuthService } from './auth.service';
@@ -15,6 +16,7 @@ import { AuthService } from './auth.service';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
+  @Public()
   @Post('signup')
   async signUp(@Body() authDto: AuthDto) {
     const user = (await this.authService.signUp(
@@ -24,6 +26,7 @@ export class AuthController {
     return new UserEntity(user);
   }
 
+  @Public()
   @Post('login')
   @HttpCode(HttpStatus.OK)
   async login(@Body() authDto: AuthDto) {

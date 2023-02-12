@@ -9,9 +9,9 @@ import { ConfigService } from '@nestjs/config';
 @Injectable()
 export class AuthService {
   constructor(
-    private configService: ConfigService,
+    private readonly configService: ConfigService,
     private readonly prisma: PrismaService,
-    private jwtService: JwtService,
+    private readonly jwtService: JwtService,
   ) {}
 
   async signUp(authDto: AuthDto): Promise<User> {
@@ -33,7 +33,7 @@ export class AuthService {
     const isPasswordCorrect = await compare(password, user.password);
 
     if (user && isPasswordCorrect) {
-      const payload = { username: user.login, sub: user.id };
+      const payload = { login: user.login, sub: user.id };
 
       return {
         access_token: this.jwtService.sign(payload),

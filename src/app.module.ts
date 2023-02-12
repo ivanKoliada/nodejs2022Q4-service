@@ -11,7 +11,9 @@ import { PrismaModule } from './prisma/prisma.module';
 import { BasicModule } from './basic/basic.module';
 import { AuthModule } from './auth/auth.module';
 import { JwtModule } from '@nestjs/jwt';
-import configuration from './shared/configuration';
+import configuration from './shared/config/configuration';
+import { JwtStrategy } from './auth/strategy';
+import { APP_GUARD } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -30,6 +32,12 @@ import configuration from './shared/configuration';
     AuthModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: JwtStrategy,
+    },
+  ],
 })
 export class AppModule {}

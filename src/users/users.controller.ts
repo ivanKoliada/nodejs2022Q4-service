@@ -10,9 +10,11 @@ import {
   ParseUUIDPipe,
   Post,
   Put,
+  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { MSG } from 'src/shared/constants';
+import { JwtAuthGuard } from 'src/shared/guards';
 import { CreateUserDto, UpdatePasswordDto } from './users.dto';
 import { UserEntity } from './users.entity';
 import { UsersService } from './users.service';
@@ -23,6 +25,7 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Get()
+  @UseGuards(JwtAuthGuard)
   async getUsers() {
     const users =
       (await this.usersService.getUsers()) as unknown as UserEntity[];
