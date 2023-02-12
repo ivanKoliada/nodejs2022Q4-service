@@ -1,13 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { User } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { UsersService } from 'src/users/users.service';
 import { AuthDto } from './auth.dto';
+import { JwtService } from '@nestjs/jwt';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly prisma: PrismaService, // private readonly userService: UsersService,
+    private readonly prisma: PrismaService,
+    private jwtService: JwtService,
   ) {}
 
   async signUp(authDto: AuthDto): Promise<User> {
@@ -16,7 +17,7 @@ export class AuthService {
     });
   }
 
-  async login({ login, password }: AuthDto): Promise<string> {
+  async login({ login, password }: AuthDto) {
     const user = await this.prisma.user.findFirst({
       where: {
         login,
@@ -24,7 +25,9 @@ export class AuthService {
     });
 
     if (user && user.password === password) {
-      return 'token';
+      const payload = { username: user.login, sub: user.id };
+
+      return this.jwtService.sign(payload);
     }
 
     return;
