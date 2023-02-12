@@ -1,6 +1,6 @@
-version: '3.9'
+# version: '3.9'
 
-services:
+# services:
   # api:
   #   container_name: api
   #   build:
@@ -18,21 +18,21 @@ services:
   #     - database
   #   networks:
   #     - docker-network
-  database:
-    container_name: database
-    build:
-      dockerfile: ./src/database/Dockerfile
-      context: .
-    volumes:
-      - database_files:/var/lib/postgresql/data
-      - database_logs:/var/log/postgresql/postgresql.log
-    restart: always
-    env_file:
-      - .env
-    ports:
-      - ${POSTGRES_PORT}:${POSTGRES_PORT}
-    networks:
-      - docker-network
+  # database:
+  #   container_name: database
+  #   build:
+  #     dockerfile: ./src/database/Dockerfile
+  #     context: .
+    # volumes:
+    #   - database_files:/var/lib/postgresql/data
+    #   - database_logs:/var/log/postgresql/postgresql.log
+    # restart: always
+    # env_file:
+    #   - .env
+    # ports:
+    #   - ${POSTGRES_PORT}:${POSTGRES_PORT}
+    # networks:
+    #   - docker-network
 
 # volumes:
 #   node_modules:
@@ -42,3 +42,15 @@ services:
 # networks:
 #   docker-network:
 #     driver: bridge
+
+version: '3.8'
+
+services:
+  db:
+    container_name: db
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_USER=admin
+    image: postgres:alpine3.17

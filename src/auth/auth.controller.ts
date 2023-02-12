@@ -1,10 +1,12 @@
 import {
   Body,
+  ClassSerializerInterceptor,
   Controller,
   HttpCode,
   HttpException,
   HttpStatus,
   Post,
+  UseInterceptors,
 } from '@nestjs/common';
 import { MSG } from 'src/shared/constants';
 import { Public } from 'src/shared/decorators';
@@ -17,6 +19,7 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Public()
+  @UseInterceptors(ClassSerializerInterceptor)
   @Post('signup')
   async signUp(@Body() authDto: AuthDto) {
     const user = (await this.authService.signUp(

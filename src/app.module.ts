@@ -10,18 +10,12 @@ import { FavoritesModule } from './favorites/favorites.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { BasicModule } from './basic/basic.module';
 import { AuthModule } from './auth/auth.module';
-import { JwtModule } from '@nestjs/jwt';
-import configuration from './shared/config/configuration';
-import { JwtStrategy } from './auth/strategy';
 import { APP_GUARD } from '@nestjs/core';
+import { JwtAuthGuard } from './shared/guards';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true, load: [configuration] }),
-    JwtModule.register({
-      secret: process.env.JWT_SECRET_KEY,
-      signOptions: { expiresIn: process.env.TOKEN_EXPIRE_TIME },
-    }),
+    ConfigModule.forRoot({ isGlobal: true }),
     AlbumsModule,
     ArtistsModule,
     TracksModule,
@@ -36,7 +30,7 @@ import { APP_GUARD } from '@nestjs/core';
     AppService,
     {
       provide: APP_GUARD,
-      useClass: JwtStrategy,
+      useClass: JwtAuthGuard,
     },
   ],
 })

@@ -4,18 +4,16 @@ import { PrismaService } from 'src/prisma/prisma.service';
 import { AuthDto } from './auth.dto';
 import { JwtService } from '@nestjs/jwt';
 import { hash, compare } from 'bcrypt';
-import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
   constructor(
-    private readonly configService: ConfigService,
     private readonly prisma: PrismaService,
     private readonly jwtService: JwtService,
   ) {}
 
   async signUp(authDto: AuthDto): Promise<User> {
-    const saltRounds = this.configService.get<string>('CRYPT_SALT');
+    const saltRounds = +process.env.CRYPT_SALT;
     const hashedPassword = await hash(authDto.password, saltRounds);
 
     return await this.prisma.user.create({
@@ -36,12 +34,13 @@ export class AuthService {
       const payload = { login: user.login, sub: user.id };
 
       return {
-        access_token: this.jwtService.sign(payload),
+        access_token: this.jwtService.sign(payload, {
+          secret: process.env.JWT_SECRET_KEY,
+          expiresIn: process.env.TOKEN_EXPIRE_TIME,
+        }),
         refresh_token: this.jwtService.sign(payload, {
-          secret: this.configService.get<string>('JWT_SECRET_REFRESH_KEY'),
-          expiresIn: this.configService.get<string>(
-            'TOKEN_REFRESH_EXPIRE_TIME',
-          ),
+          secret: process.env.JWT_SECRET_REFRESH_KEY,
+          expiresIn: process.env.TOKEN_REFRESH_EXPIRE_TIME,
         }),
       };
     }
