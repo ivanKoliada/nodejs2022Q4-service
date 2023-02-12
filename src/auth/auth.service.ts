@@ -3,17 +3,23 @@ import { User } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { AuthDto } from './auth.dto';
 import { JwtService } from '@nestjs/jwt';
+import { hash, compare } from 'bcrypt';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class AuthService {
   constructor(
+    private configService: ConfigService,
     private readonly prisma: PrismaService,
     private jwtService: JwtService,
   ) {}
 
   async signUp(authDto: AuthDto): Promise<User> {
+    const saltRounds = this.configService.get<string>('CRYPT_SALT');
+    const hashedPassword = await hash(authDto.password, saltRounds);
+
     return await this.prisma.user.create({
-      data: authDto,
+      data: { ...authDto, password: hashedPassword },
     });
   }
 
@@ -24,10 +30,20 @@ export class AuthService {
       },
     });
 
-    if (user && user.password === password) {
+    const isPasswordCorrect = await compare(password, user.password);
+
+    if (user && isPasswordCorrect) {
       const payload = { username: user.login, sub: user.id };
 
-      return this.jwtService.sign(payload);
+      return {
+        access_token: this.jwtService.sign(payload),
+        refresh_token: this.jwtService.sign(payload, {
+          secret: this.configService.get<string>('JWT_SECRET_REFRESH_KEY'),
+          expiresIn: this.configService.get<string>(
+            'TOKEN_REFRESH_EXPIRE_TIME',
+          ),
+        }),
+      };
     }
 
     return;

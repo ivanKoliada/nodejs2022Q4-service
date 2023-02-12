@@ -27,9 +27,9 @@ export class AuthController {
   @Post('login')
   @HttpCode(HttpStatus.OK)
   async login(@Body() authDto: AuthDto) {
-    const access_token = await this.authService.login(authDto);
+    const tokens = await this.authService.login(authDto);
 
-    if (access_token) return access_token;
+    if (tokens) return tokens;
 
     throw new HttpException(MSG.ACCESS_DENIED, HttpStatus.FORBIDDEN);
   }
