@@ -6,10 +6,12 @@ import {
   HttpException,
   HttpStatus,
   Post,
+  UnauthorizedException,
   UseInterceptors,
+  ValidationPipe,
 } from '@nestjs/common';
 import { MSG } from 'src/shared/constants';
-import { Public } from 'src/shared/decorators';
+import { BodyHasRefreshToken, Public } from 'src/shared/decorators';
 import { UserEntity } from 'src/users/users.entity';
 import { SignUpDto, LoginDto, RefreshDto } from './auth.dto';
 import { AuthService } from './auth.service';
@@ -42,7 +44,16 @@ export class AuthController {
 
   @Post('refresh')
   @HttpCode(HttpStatus.OK)
-  async refreshToken(@Body() refreshDto: RefreshDto) {
+  async refreshToken(
+    @BodyHasRefreshToken(
+      new ValidationPipe({
+        validateCustomDecorators: true,
+        errorHttpStatusCode: HttpStatus.UNAUTHORIZED,
+        exceptionFactory: () => new UnauthorizedException(MSG.NO_REFRESH_TOKEN),
+      }),
+    )
+    refreshDto: RefreshDto,
+  ) {
     const tokens = await this.authService.refreshToken(refreshDto);
 
     if (tokens) return tokens;
