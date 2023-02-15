@@ -1,6 +1,12 @@
-import { LoggerService, ConsoleLogger, LogLevel } from '@nestjs/common';
+import { ConsoleLogger } from '@nestjs/common';
+import { LOG_LEVELS } from '../constants';
 
 export class LoggingService extends ConsoleLogger {
+  constructor() {
+    super();
+    this.setLogLevels(LOG_LEVELS[process.env.LOG_LEVEL]);
+  }
+
   async log(message: string) {
     super.log(message);
     await this.logToFile(message);
@@ -24,10 +30,6 @@ export class LoggingService extends ConsoleLogger {
   async verbose(message: string) {
     super.verbose(message);
     await this.logToFile(message);
-  }
-
-  setLogLevels(levels: LogLevel[]): void {
-    super.setLogLevels(levels);
   }
 
   private async logToFile(message: string) {

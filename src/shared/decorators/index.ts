@@ -3,9 +3,9 @@ import {
   ExecutionContext,
   SetMetadata,
 } from '@nestjs/common';
-import { isPublicAccess } from '../constants';
+import { IS_PUBLIC_ACCESS } from '../constants';
 
-export const Public = () => SetMetadata(isPublicAccess, true);
+export const Public = () => SetMetadata(IS_PUBLIC_ACCESS, true);
 
 export const BodyHasRefreshToken = createParamDecorator(
   (data: any, ctx: ExecutionContext) => {

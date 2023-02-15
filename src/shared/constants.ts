@@ -22,4 +22,12 @@ export const DB_FIELD = {
   TRACK: 'track',
 };
 
-export const isPublicAccess = 'isPublic';
+export const IS_PUBLIC_ACCESS = 'isPublic';
+
+export const LOG_LEVELS = {
+  '0': ['log'],
+  '1': ['log', 'error'],
+  '2': ['log', 'error', 'warn'],
+  '3': ['log', 'error', 'warn', 'debug'],
+  '4': ['log', 'error', 'warn', 'debug', 'verbose'],
+};
