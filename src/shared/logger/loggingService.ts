@@ -1,4 +1,4 @@
-import { ConsoleLogger, Injectable } from '@nestjs/common';
+import { ConsoleLogger, Injectable, LogLevel } from '@nestjs/common';
 import { appendFile } from 'fs';
 import { LOG_LEVEL, LOG_LEVELS, PATH_TO_LOG_FILE } from '../constants';
 
@@ -39,11 +39,13 @@ export class LoggingService extends ConsoleLogger {
     await this.logToFile(message, LOG_LEVEL.VERBOSE);
   }
 
-  private async logToFile(message: string, level: string) {
-    const msg = `${this.getTimestamp()} [${level}] ${message} \n`;
+  private async logToFile(message: string, level: LogLevel) {
+    if (this.isLevelEnabled(level)) {
+      const msg = `${this.getTimestamp()} [${level}] ${message} \n`;
 
-    appendFile(PATH_TO_LOG_FILE, msg, 'utf8', (err) => {
-      if (err) throw err;
-    });
+      appendFile(PATH_TO_LOG_FILE, msg, 'utf8', (err) => {
+        if (err) throw err;
+      });
+    }
   }
 }
