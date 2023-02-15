@@ -1,3 +1,5 @@
+import { LogLevel } from '@nestjs/common';
+
 export const MSG = {
   USER_NOT_FOUND: 'User not found',
   TRACK_NOT_FOUND: 'Track not found',
@@ -31,3 +33,13 @@ export const LOG_LEVELS = {
   '3': ['log', 'error', 'warn', 'debug'],
   '4': ['log', 'error', 'warn', 'debug', 'verbose'],
 };
+
+export const LOG_LEVEL: Record<string, LogLevel> = {
+  LOG: 'log',
+  ERROR: 'error',
+  WARN: 'warn',
+  DEBUG: 'debug',
+  VERBOSE: 'verbose',
+};
+
+export const PATH_TO_LOG_FILE = './file.log';

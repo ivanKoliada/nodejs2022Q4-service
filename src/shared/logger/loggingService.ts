@@ -1,5 +1,6 @@
 import { ConsoleLogger, Injectable } from '@nestjs/common';
-import { LOG_LEVELS } from '../constants';
+import { appendFile } from 'fs';
+import { LOG_LEVEL, LOG_LEVELS, PATH_TO_LOG_FILE } from '../constants';
 
 @Injectable()
 export class LoggingService extends ConsoleLogger {
@@ -9,32 +10,40 @@ export class LoggingService extends ConsoleLogger {
   }
 
   async log(message: string) {
-    super.log(message);
-    await this.logToFile(message);
+    super.log(this.colorize(message, LOG_LEVEL.LOG));
+
+    await this.logToFile(message, LOG_LEVEL.LOG);
   }
 
-  async error(message: string, trace: string) {
-    super.error(message);
-    await this.logToFile(message);
+  async error(message: string) {
+    super.error(this.colorize(message, LOG_LEVEL.ERROR));
+
+    await this.logToFile(message, LOG_LEVEL.ERROR);
   }
 
   async warn(message: string) {
-    super.warn(message);
-    await this.logToFile(message);
+    super.warn(this.colorize(message, LOG_LEVEL.WARN));
+
+    await this.logToFile(message, LOG_LEVEL.WARN);
   }
 
   async debug(message: string) {
-    super.debug(message);
-    await this.logToFile(message);
+    super.debug(this.colorize(message, LOG_LEVEL.DEBUG));
+
+    await this.logToFile(message, LOG_LEVEL.DEBUG);
   }
 
   async verbose(message: string) {
-    super.verbose(message);
-    await this.logToFile(message);
+    super.verbose(this.colorize(message, LOG_LEVEL.VERBOSE));
+
+    await this.logToFile(message, LOG_LEVEL.VERBOSE);
   }
 
-  private async logToFile(message: string) {
-    console.log(message, 11111111111111);
-    return;
+  private async logToFile(message: string, level: string) {
+    const msg = `${this.getTimestamp()} [${level}] ${message} \n`;
+
+    appendFile(PATH_TO_LOG_FILE, msg, 'utf8', (err) => {
+      if (err) throw err;
+    });
   }
 }
