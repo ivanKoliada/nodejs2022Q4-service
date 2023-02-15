@@ -1,6 +1,7 @@
-import { ConsoleLogger } from '@nestjs/common';
+import { ConsoleLogger, Injectable } from '@nestjs/common';
 import { LOG_LEVELS } from '../constants';
 
+@Injectable()
 export class LoggingService extends ConsoleLogger {
   constructor() {
     super();
@@ -33,6 +34,7 @@ export class LoggingService extends ConsoleLogger {
   }
 
   private async logToFile(message: string) {
+    console.log(message, 11111111111111);
     return;
   }
 }
