@@ -4,10 +4,6 @@ import { LoggingService } from './loggingService';
 
 @Injectable()
 export class LoggerMiddleware extends LoggingService implements NestMiddleware {
-  constructor() {
-    super();
-  }
-
   use(req: Request, res: Response, next: NextFunction) {
     res.on('finish', () => {
       this.log(

@@ -42,4 +42,4 @@ export const LOG_LEVEL: Record<string, LogLevel> = {
   VERBOSE: 'verbose',
 };
 
-export const PATH_TO_LOG_FILE = './file.log';
+export const PATH_TO_LOG_FOLDER = './logs/';
