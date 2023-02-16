@@ -44,11 +44,7 @@ export class LoggingService extends ConsoleLogger {
     if (this.isLevelEnabled(level)) {
       const msg = `${this.getTimestamp()} [${level}] ${message} \n`;
 
-      try {
-        await access(PATH_TO_LOG_FOLDER);
-      } catch {
-        await mkdir(PATH_TO_LOG_FOLDER, { recursive: true });
-      }
+      await mkdir(PATH_TO_LOG_FOLDER, { recursive: true });
 
       const files = await readdir(PATH_TO_LOG_FOLDER);
 
