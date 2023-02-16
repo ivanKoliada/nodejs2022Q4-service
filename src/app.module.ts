@@ -11,6 +11,7 @@ import { PrismaModule } from './prisma/prisma.module';
 import { BasicModule } from './basic/basic.module';
 import { AuthModule } from './auth/auth.module';
 import { LoggerMiddleware } from './shared/logger/logger.middleware';
+import { LoggingService } from './shared/logger/loggingService';
 
 @Module({
   imports: [
@@ -25,7 +26,7 @@ import { LoggerMiddleware } from './shared/logger/logger.middleware';
     AuthModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, LoggingService],
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {

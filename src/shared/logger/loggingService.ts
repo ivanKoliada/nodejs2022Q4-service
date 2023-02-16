@@ -1,13 +1,13 @@
 import { ConsoleLogger, Injectable, LogLevel } from '@nestjs/common';
-import { stat, readdir, mkdir, appendFile, writeFile } from 'fs/promises';
+import { stat, readdir, mkdir, writeFile } from 'fs/promises';
 import { LOG_LEVEL, LOG_LEVELS, PATH_TO_LOG_FOLDER } from '../constants';
 
 @Injectable()
 export class LoggingService extends ConsoleLogger {
-  constructor() {
-    super();
-    this.setLogLevels(LOG_LEVELS[process.env.LOG_LEVEL]);
-  }
+  // constructor() {
+  //   super();
+  //   this.setLogLevels(LOG_LEVELS[process.env.LOG_LEVEL]);
+  // }
 
   async log(message: string) {
     super.log(message, LOG_LEVEL.LOG);
@@ -40,7 +40,10 @@ export class LoggingService extends ConsoleLogger {
   }
 
   private async logToFile(message: string, level: LogLevel) {
-    if (this.isLevelEnabled(level)) {
+    if (
+      // this.isLevelEnabled(level)
+      LOG_LEVELS[process.env.LOG_LEVEL].includes(level)
+    ) {
       const msg = `${this.getTimestamp()} [${level}] ${message} \n`;
 
       await mkdir(PATH_TO_LOG_FOLDER, { recursive: true });
