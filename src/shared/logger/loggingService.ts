@@ -1,6 +1,5 @@
 import { ConsoleLogger, Injectable, LogLevel } from '@nestjs/common';
-// import { appendFile } from 'fs';
-import { stat, access, readdir, mkdir, appendFile } from 'fs/promises';
+import { stat, readdir, mkdir, appendFile, writeFile } from 'fs/promises';
 import { LOG_LEVEL, LOG_LEVELS, PATH_TO_LOG_FOLDER } from '../constants';
 
 @Injectable()
@@ -11,31 +10,31 @@ export class LoggingService extends ConsoleLogger {
   }
 
   async log(message: string) {
-    super.log(this.colorize(message, LOG_LEVEL.LOG));
+    super.log(message, LOG_LEVEL.LOG);
 
     await this.logToFile(message, LOG_LEVEL.LOG);
   }
 
   async error(message: string) {
-    super.error(this.colorize(message, LOG_LEVEL.ERROR));
+    super.error(message, LOG_LEVEL.ERROR);
 
     await this.logToFile(message, LOG_LEVEL.ERROR);
   }
 
   async warn(message: string) {
-    super.warn(this.colorize(message, LOG_LEVEL.WARN));
+    super.warn(message, LOG_LEVEL.WARN);
 
     await this.logToFile(message, LOG_LEVEL.WARN);
   }
 
   async debug(message: string) {
-    super.debug(this.colorize(message, LOG_LEVEL.DEBUG));
+    super.debug(message, LOG_LEVEL.DEBUG);
 
     await this.logToFile(message, LOG_LEVEL.DEBUG);
   }
 
   async verbose(message: string) {
-    super.verbose(this.colorize(message, LOG_LEVEL.VERBOSE));
+    super.verbose(message, LOG_LEVEL.VERBOSE);
 
     await this.logToFile(message, LOG_LEVEL.VERBOSE);
   }
@@ -53,7 +52,7 @@ export class LoggingService extends ConsoleLogger {
       if (!files.length) {
         const pathToLogFile = `${PATH_TO_LOG_FOLDER}${timestamp}.log`;
 
-        await appendFile(pathToLogFile, msg);
+        await writeFile(pathToLogFile, msg, { flag: 'a' });
       } else {
         const file = await stat(PATH_TO_LOG_FOLDER + files.at(-1));
         const filename =
@@ -63,7 +62,7 @@ export class LoggingService extends ConsoleLogger {
 
         const pathToLogFile = PATH_TO_LOG_FOLDER + filename;
 
-        await appendFile(pathToLogFile, msg);
+        await writeFile(pathToLogFile, msg, { flag: 'a' });
       }
     }
   }

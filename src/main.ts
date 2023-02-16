@@ -11,9 +11,10 @@ async function bootstrap() {
 
   const app = await NestFactory.create(AppModule, {
     cors: true,
-    logger: new LoggingService(),
+    logger: false,
   });
 
+  app.useLogger(new LoggingService());
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
 
   const file = readFileSync('./doc/api.yaml', 'utf8');
