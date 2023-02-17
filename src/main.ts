@@ -6,6 +6,7 @@ import { readFileSync } from 'fs';
 import { parse } from 'yaml';
 import { LoggingService } from './shared/logger/logging.service';
 import { HttpExceptionFilter } from './shared/filter/httpException.filter';
+import { loggingHandledErrors } from './shared/handler/error.handler';
 
 async function bootstrap() {
   const port = process.env.PORT || 4000;
@@ -15,9 +16,13 @@ async function bootstrap() {
     logger: false,
   });
 
-  app.useLogger(new LoggingService());
+  const logger = new LoggingService();
+
+  app.useLogger(logger);
   app.useGlobalFilters(new HttpExceptionFilter());
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
+
+  loggingHandledErrors(logger);
 
   const file = readFileSync('./doc/api.yaml', 'utf8');
   const document = parse(file);

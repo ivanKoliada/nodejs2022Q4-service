@@ -11,7 +11,7 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { MSG } from 'src/shared/constants';
-import { BodyHasRefreshToken, Public } from 'src/shared/decorators';
+import { BodyHasRefreshToken, Public } from 'src/shared/decorators/decorator';
 import { UserEntity } from 'src/users/users.entity';
 import { SignUpDto, LoginDto, RefreshDto } from './auth.dto';
 import { AuthService } from './auth.service';
