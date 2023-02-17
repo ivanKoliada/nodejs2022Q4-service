@@ -9,7 +9,7 @@
 - Type `npm i` to install all dependencies.
 - **Change** `.env.example` to `.env`
 
-> **NOTE:** if hot reload does not work on windows - turn off setting general `Use the WSL 2 based engine`
+> **NOTE:** If hot reload does not work on windows - turn off setting general `Use the WSL 2 based engine`
 
 ## Running application:
 - Run docker desktop
@@ -20,6 +20,8 @@
 After application running open new terminal and enter:
 
 To run vulnerabilities scanning
+
+> **NOTE:** `Your account must be authenticated`
 
 ```
 npm run docker:scan
