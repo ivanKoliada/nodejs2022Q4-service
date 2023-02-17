@@ -7,6 +7,8 @@ import { parse } from 'yaml';
 import { LoggingService } from './shared/logger/logging.service';
 import { HttpExceptionFilter } from './shared/filter/httpException.filter';
 import { loggingHandledErrors } from './shared/handler/error.handler';
+import { JwtAuthGuard } from './auth/auth.guard';
+import { Reflector } from '@nestjs/core';
 
 async function bootstrap() {
   const port = process.env.PORT || 4000;
@@ -16,9 +18,11 @@ async function bootstrap() {
     logger: false,
   });
 
+  const reflector = new Reflector();
   const logger = new LoggingService();
 
   app.useLogger(logger);
+  app.useGlobalGuards(new JwtAuthGuard(reflector));
   app.useGlobalFilters(new HttpExceptionFilter());
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
 
