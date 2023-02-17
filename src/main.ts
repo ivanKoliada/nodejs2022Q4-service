@@ -4,7 +4,8 @@ import { AppModule } from './app.module';
 import { SwaggerModule } from '@nestjs/swagger';
 import { readFileSync } from 'fs';
 import { parse } from 'yaml';
-import { LoggingService } from './shared/logger/loggingService';
+import { LoggingService } from './shared/logger/logging.service';
+import { HttpExceptionFilter } from './shared/filter/httpException.filter';
 
 async function bootstrap() {
   const port = process.env.PORT || 4000;
@@ -15,6 +16,7 @@ async function bootstrap() {
   });
 
   app.useLogger(new LoggingService());
+  app.useGlobalFilters(new HttpExceptionFilter());
   app.useGlobalPipes(new ValidationPipe({ whitelist: true, transform: true }));
 
   const file = readFileSync('./doc/api.yaml', 'utf8');

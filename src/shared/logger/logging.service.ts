@@ -1,6 +1,8 @@
 import { ConsoleLogger, Injectable, LogLevel } from '@nestjs/common';
-import { stat, readdir, mkdir, writeFile } from 'fs/promises';
+import { statSync } from 'fs';
+import { readdir, mkdir, writeFile, copyFile, stat, rename } from 'fs/promises';
 import { LOG_LEVEL, LOG_LEVELS, PATH_TO_LOG_FOLDER } from '../constants';
+// import { stat } from 'fs';
 
 @Injectable()
 export class LoggingService extends ConsoleLogger {
@@ -39,6 +41,40 @@ export class LoggingService extends ConsoleLogger {
     await this.logToFile(message, LOG_LEVEL.VERBOSE);
   }
 
+  // private async logToFile(message: string, level: LogLevel) {
+  //   if (
+  //     // this.isLevelEnabled(level)
+  //     LOG_LEVELS[process.env.LOG_LEVEL].includes(level)
+  //   ) {
+  //     const msg = `${this.getTimestamp()} [${level}] ${message} \n`;
+
+  //     await mkdir(PATH_TO_LOG_FOLDER, { recursive: true });
+
+  //     const files = await readdir(PATH_TO_LOG_FOLDER);
+
+  //     const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+
+  //     const pathToLogFile = `${PATH_TO_LOG_FOLDER}current.log`;
+
+  //     if (!files.length) {
+  //       await writeFile(pathToLogFile, msg, { flag: 'a' });
+  //     } else {
+  //       const file = statSync(pathToLogFile);
+
+  //       if (file.size / 1024 >= +process.env.MAX_FILE_SIZE) {
+  //         await rename(pathToLogFile, `${PATH_TO_LOG_FOLDER}${timestamp}.log`);
+
+  //         await writeFile(pathToLogFile, msg, {
+  //           flag: 'a',
+  //         });
+  //       } else {
+  //         await writeFile(pathToLogFile, msg, {
+  //           flag: 'a',
+  //         });
+  //       }
+  //     }
+  //   }
+  // }
   private async logToFile(message: string, level: LogLevel) {
     if (
       // this.isLevelEnabled(level)
@@ -57,7 +93,7 @@ export class LoggingService extends ConsoleLogger {
 
         await writeFile(pathToLogFile, msg, { flag: 'a' });
       } else {
-        const file = await stat(PATH_TO_LOG_FOLDER + files.at(-1));
+        const file = statSync(PATH_TO_LOG_FOLDER + files.at(-1));
         const filename =
           file.size / 1024 >= +process.env.MAX_FILE_SIZE
             ? `${timestamp}.log`

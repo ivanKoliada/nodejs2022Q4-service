@@ -1,6 +1,6 @@
 import { Injectable, NestMiddleware } from '@nestjs/common';
 import { NextFunction, Request, Response } from 'express';
-import { LoggingService } from './loggingService';
+import { LoggingService } from '../logger/logging.service';
 
 @Injectable()
 export class LoggerMiddleware implements NestMiddleware {
@@ -12,13 +12,12 @@ export class LoggerMiddleware implements NestMiddleware {
         req.url
       } QUERY_PARAMS:${JSON.stringify(req.params)} BODY:${JSON.stringify(
         req.body,
-      )} STATUS_CODE:${res.statusCode}`;
+      )} STATUS_CODE:${res.statusCode} MESSAGE:${res.statusMessage}`;
 
-      if (res.statusCode === 500) {
-        await this.logger.error(msg);
-      } else if (res.statusCode >= 400) {
-        await this.logger.warn(msg);
-      } else await this.logger.log(msg);
+      if (res.statusCode === 500) return this.logger.error(msg);
+      if (res.statusCode >= 400) return this.logger.warn(msg);
+
+      return this.logger.log(msg);
     });
 
     next();

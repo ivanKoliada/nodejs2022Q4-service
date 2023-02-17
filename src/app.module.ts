@@ -10,8 +10,8 @@ import { FavoritesModule } from './favorites/favorites.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { BasicModule } from './basic/basic.module';
 import { AuthModule } from './auth/auth.module';
-import { LoggerMiddleware } from './shared/logger/logger.middleware';
-import { LoggingService } from './shared/logger/loggingService';
+import { LoggerMiddleware } from './shared/middleware/logger.middleware';
+import { LoggingService } from './shared/logger/logging.service';
 
 @Module({
   imports: [
