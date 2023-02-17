@@ -1,4 +1,4 @@
-FROM node:gallium-alpine3.17 as build
+FROM node:gallium-alpine as build
 
 WORKDIR /app
 
@@ -10,7 +10,7 @@ COPY . .
 
 RUN npx prisma generate
 
-FROM node:gallium-alpine3.17
+FROM node:gallium-alpine
 
 WORKDIR /app
 
