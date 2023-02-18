@@ -1,0 +1,10 @@
+version: '3.9'
+
+services:
+  database:
+    container_name: database
+    ports:
+      - ${POSTGRES_PORT}:${POSTGRES_PORT}
+    env_file:
+      - .env
+    image: postgres:alpine3.17
