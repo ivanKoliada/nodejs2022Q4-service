@@ -2,7 +2,7 @@ import { LogLevel } from '@nestjs/common';
 import { mkdirSync, readdirSync, statSync, writeFileSync } from 'fs';
 import { PATH_TO_LOG_FOLDER } from './constants';
 
-export const logToFile = async (message: string, level: LogLevel) => {
+export const logToFile = (message: string, level: LogLevel) => {
   const currentTime = new Date().toISOString();
   const timestamp = currentTime.replace(/[:.]/g, '-');
 
