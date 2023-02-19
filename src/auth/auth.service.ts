@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
-import { User } from '@prisma/client';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { SignUpDto, LoginDto, RefreshDto } from './auth.dto';
 import { JwtService } from '@nestjs/jwt';
 import { hash, compare } from 'bcrypt';
 import { PayloadEntity, TokenEntity } from './auth.entity';
+import { UserEntity } from 'src/users/users.entity';
 
 @Injectable()
 export class AuthService {
@@ -13,7 +13,7 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async signUp(signUpDto: SignUpDto): Promise<User> {
+  async signUp(signUpDto: SignUpDto): Promise<UserEntity> {
     const saltRounds = +process.env.CRYPT_SALT;
     const hashedPassword = await hash(signUpDto.password, saltRounds);
 

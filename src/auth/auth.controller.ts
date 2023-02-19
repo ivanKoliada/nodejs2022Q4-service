@@ -24,9 +24,7 @@ export class AuthController {
   @UseInterceptors(ClassSerializerInterceptor)
   @Post('signup')
   async signUp(@Body() signUpDto: SignUpDto) {
-    const user = (await this.authService.signUp(
-      signUpDto,
-    )) as unknown as UserEntity;
+    const user = await this.authService.signUp(signUpDto);
 
     return new UserEntity(user);
   }

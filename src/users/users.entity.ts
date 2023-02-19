@@ -12,10 +12,10 @@ export class UserEntity {
   version: number;
 
   @Type(() => Number)
-  createdAt: number;
+  createdAt: number | Date;
 
   @Type(() => Number)
-  updatedAt: number;
+  updatedAt: number | Date;
 
   constructor(partial: Partial<UserEntity>) {
     Object.assign(this, partial);

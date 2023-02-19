@@ -10,7 +10,6 @@ import {
   ParseUUIDPipe,
   Post,
   Put,
-  UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import { MSG } from 'src/shared/constants';
@@ -25,8 +24,7 @@ export class UsersController {
 
   @Get()
   async getUsers() {
-    const users =
-      (await this.usersService.getUsers()) as unknown as UserEntity[];
+    const users = await this.usersService.getUsers();
 
     return users.map((user) => new UserEntity(user));
   }
@@ -36,7 +34,7 @@ export class UsersController {
     @Param('id', new ParseUUIDPipe())
     id: string,
   ) {
-    const user = (await this.usersService.getUser(id)) as unknown as UserEntity;
+    const user = await this.usersService.getUser(id);
 
     if (user) return new UserEntity(user);
 
@@ -45,9 +43,7 @@ export class UsersController {
 
   @Post()
   async createUser(@Body() createUserDto: CreateUserDto) {
-    const user = (await this.usersService.createUser(
-      createUserDto,
-    )) as unknown as UserEntity;
+    const user = await this.usersService.createUser(createUserDto);
 
     return new UserEntity(user);
   }
@@ -64,10 +60,10 @@ export class UsersController {
       throw new HttpException(MSG.USER_NOT_FOUND, HttpStatus.NOT_FOUND);
     }
 
-    const updatedUser = (await this.usersService.updateUser(
+    const updatedUser = await this.usersService.updateUser(
       id,
       updatePasswordDto,
-    )) as unknown as UserEntity;
+    );
 
     if (!updatedUser) {
       throw new HttpException(MSG.WRONG_PASSWORD, HttpStatus.FORBIDDEN);
