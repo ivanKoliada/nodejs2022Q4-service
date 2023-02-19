@@ -24,8 +24,7 @@ services:
       dockerfile: ./src/database/Dockerfile
       context: .
     volumes:
-      - database_files:/var/lib/postgresql/data
-      - database_logs:/var/log/postgresql/postgresql.log
+      - data:/var/lib/postgresql/data
     restart: always
     env_file:
       - .env
@@ -36,8 +35,7 @@ services:
 
 volumes:
   node_modules:
-  database_files:
-  database_logs:
+  data:
 
 networks:
   docker-network:
