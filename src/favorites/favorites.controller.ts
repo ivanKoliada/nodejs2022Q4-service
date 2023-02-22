@@ -3,8 +3,10 @@ import {
   Get,
   HttpException,
   HttpStatus,
+  NotFoundException,
   ParseUUIDPipe,
   Post,
+  UnprocessableEntityException,
 } from '@nestjs/common';
 import { Delete, Param } from '@nestjs/common/decorators';
 import { DB_FIELD, MSG } from 'src/shared/constants';
@@ -30,10 +32,7 @@ export class FavoritesController {
       throw new HttpException(MSG.TRACK_ADDED, HttpStatus.CREATED);
     }
 
-    throw new HttpException(
-      MSG.TRACK_NOT_FOUND,
-      HttpStatus.UNPROCESSABLE_ENTITY,
-    );
+    throw new UnprocessableEntityException(MSG.TRACK_NOT_FOUND);
   }
 
   @Post('album/:id')
@@ -47,10 +46,7 @@ export class FavoritesController {
       throw new HttpException(MSG.ALBUM_ADDED, HttpStatus.CREATED);
     }
 
-    throw new HttpException(
-      MSG.ALBUM_NOT_FOUND,
-      HttpStatus.UNPROCESSABLE_ENTITY,
-    );
+    throw new UnprocessableEntityException(MSG.ALBUM_NOT_FOUND);
   }
 
   @Post('artist/:id')
@@ -64,10 +60,7 @@ export class FavoritesController {
       throw new HttpException(MSG.ARTIST_ADDED, HttpStatus.CREATED);
     }
 
-    throw new HttpException(
-      MSG.ARTIST_NOT_FOUND,
-      HttpStatus.UNPROCESSABLE_ENTITY,
-    );
+    throw new UnprocessableEntityException(MSG.ARTIST_NOT_FOUND);
   }
 
   @Delete('track/:id')
@@ -81,7 +74,7 @@ export class FavoritesController {
       throw new HttpException(MSG.TRACK_DELETED, HttpStatus.NO_CONTENT);
     }
 
-    throw new HttpException(MSG.TRACK_NOT_FOUND, HttpStatus.NOT_FOUND);
+    throw new NotFoundException(MSG.TRACK_NOT_FOUND);
   }
 
   @Delete('album/:id')
@@ -95,7 +88,7 @@ export class FavoritesController {
       throw new HttpException(MSG.ALBUM_DELETED, HttpStatus.NO_CONTENT);
     }
 
-    throw new HttpException(MSG.ALBUM_NOT_FOUND, HttpStatus.NOT_FOUND);
+    throw new NotFoundException(MSG.ALBUM_NOT_FOUND);
   }
 
   @Delete('artist/:id')
@@ -111,6 +104,6 @@ export class FavoritesController {
       throw new HttpException(MSG.ARTIST_DELETED, HttpStatus.NO_CONTENT);
     }
 
-    throw new HttpException(MSG.ARTIST_NOT_FOUND, HttpStatus.NOT_FOUND);
+    throw new NotFoundException(MSG.ARTIST_NOT_FOUND);
   }
 }

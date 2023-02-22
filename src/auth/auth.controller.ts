@@ -2,8 +2,8 @@ import {
   Body,
   ClassSerializerInterceptor,
   Controller,
+  ForbiddenException,
   HttpCode,
-  HttpException,
   HttpStatus,
   Post,
   UnauthorizedException,
@@ -37,7 +37,7 @@ export class AuthController {
 
     if (tokens) return tokens;
 
-    throw new HttpException(MSG.ACCESS_DENIED, HttpStatus.FORBIDDEN);
+    throw new ForbiddenException(MSG.ACCESS_DENIED);
   }
 
   @Post('refresh')
@@ -56,6 +56,6 @@ export class AuthController {
 
     if (tokens) return tokens;
 
-    throw new HttpException(MSG.INVALID_TOKEN, HttpStatus.FORBIDDEN);
+    throw new ForbiddenException(MSG.INVALID_TOKEN);
   }
 }

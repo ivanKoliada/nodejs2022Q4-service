@@ -5,6 +5,7 @@ import {
   Get,
   HttpException,
   HttpStatus,
+  NotFoundException,
   Param,
   ParseUUIDPipe,
   Post,
@@ -32,7 +33,7 @@ export class TracksController {
 
     if (track) return track;
 
-    throw new HttpException(MSG.TRACK_NOT_FOUND, HttpStatus.NOT_FOUND);
+    throw new NotFoundException(MSG.TRACK_NOT_FOUND);
   }
 
   @Post()
@@ -49,7 +50,7 @@ export class TracksController {
     const track = await this.tracksService.getById(id, DB_FIELD.TRACK);
 
     if (!track) {
-      throw new HttpException(MSG.TRACK_NOT_FOUND, HttpStatus.NOT_FOUND);
+      throw new NotFoundException(MSG.TRACK_NOT_FOUND);
     }
 
     return await this.tracksService.update(id, updateTrackDto, DB_FIELD.TRACK);
@@ -63,7 +64,7 @@ export class TracksController {
     const track = await this.tracksService.getById(id, DB_FIELD.TRACK);
 
     if (!track) {
-      throw new HttpException(MSG.TRACK_NOT_FOUND, HttpStatus.NOT_FOUND);
+      throw new NotFoundException(MSG.TRACK_NOT_FOUND);
     }
 
     await this.tracksService.delete(id, DB_FIELD.TRACK);

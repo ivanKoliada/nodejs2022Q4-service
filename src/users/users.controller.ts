@@ -3,9 +3,11 @@ import {
   ClassSerializerInterceptor,
   Controller,
   Delete,
+  ForbiddenException,
   Get,
   HttpException,
   HttpStatus,
+  NotFoundException,
   Param,
   ParseUUIDPipe,
   Post,
@@ -38,7 +40,7 @@ export class UsersController {
 
     if (user) return new UserEntity(user);
 
-    throw new HttpException(MSG.USER_NOT_FOUND, HttpStatus.NOT_FOUND);
+    throw new NotFoundException(MSG.USER_NOT_FOUND);
   }
 
   @Post()
@@ -57,7 +59,7 @@ export class UsersController {
     const user = await this.usersService.getUser(id);
 
     if (!user) {
-      throw new HttpException(MSG.USER_NOT_FOUND, HttpStatus.NOT_FOUND);
+      throw new NotFoundException(MSG.USER_NOT_FOUND);
     }
 
     const updatedUser = await this.usersService.updateUser(
@@ -66,7 +68,7 @@ export class UsersController {
     );
 
     if (!updatedUser) {
-      throw new HttpException(MSG.WRONG_PASSWORD, HttpStatus.FORBIDDEN);
+      throw new ForbiddenException(MSG.WRONG_PASSWORD);
     }
 
     return new UserEntity(updatedUser);
@@ -80,7 +82,7 @@ export class UsersController {
     const user = await this.usersService.getUser(id);
 
     if (!user) {
-      throw new HttpException(MSG.USER_NOT_FOUND, HttpStatus.NOT_FOUND);
+      throw new NotFoundException(MSG.USER_NOT_FOUND);
     }
 
     await this.usersService.deleteUser(id);

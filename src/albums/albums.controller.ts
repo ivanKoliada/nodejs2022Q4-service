@@ -9,6 +9,7 @@ import {
   ParseUUIDPipe,
   Post,
   Put,
+  NotFoundException,
 } from '@nestjs/common';
 import { DB_FIELD, MSG } from 'src/shared/constants';
 import { CreateAlbumDto, UpdateAlbumDto } from './albums.dto';
@@ -32,7 +33,7 @@ export class AlbumsController {
 
     if (album) return album;
 
-    throw new HttpException(MSG.ALBUM_NOT_FOUND, HttpStatus.NOT_FOUND);
+    throw new NotFoundException(MSG.ALBUM_NOT_FOUND);
   }
 
   @Post()
@@ -49,7 +50,7 @@ export class AlbumsController {
     const album = await this.albumsService.getById(id, DB_FIELD.ALBUM);
 
     if (!album) {
-      throw new HttpException(MSG.ALBUM_NOT_FOUND, HttpStatus.NOT_FOUND);
+      throw new NotFoundException(MSG.ALBUM_NOT_FOUND);
     }
 
     return await this.albumsService.update(id, updateAlbumDto, DB_FIELD.ALBUM);
@@ -63,7 +64,7 @@ export class AlbumsController {
     const album = await this.albumsService.getById(id, DB_FIELD.ALBUM);
 
     if (!album) {
-      throw new HttpException(MSG.ALBUM_NOT_FOUND, HttpStatus.NOT_FOUND);
+      throw new NotFoundException(MSG.ALBUM_NOT_FOUND);
     }
 
     await this.albumsService.delete(id, DB_FIELD.ALBUM);

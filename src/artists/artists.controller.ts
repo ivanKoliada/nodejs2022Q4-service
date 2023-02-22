@@ -5,6 +5,7 @@ import {
   Get,
   HttpException,
   HttpStatus,
+  NotFoundException,
   Param,
   ParseUUIDPipe,
   Post,
@@ -32,7 +33,7 @@ export class ArtistsController {
 
     if (artist) return artist;
 
-    throw new HttpException(MSG.ARTIST_NOT_FOUND, HttpStatus.NOT_FOUND);
+    throw new NotFoundException(MSG.ARTIST_NOT_FOUND);
   }
 
   @Post()
@@ -49,7 +50,7 @@ export class ArtistsController {
     const artist = await this.artistsService.getById(id, DB_FIELD.ARTIST);
 
     if (!artist) {
-      throw new HttpException(MSG.ARTIST_NOT_FOUND, HttpStatus.NOT_FOUND);
+      throw new NotFoundException(MSG.ARTIST_NOT_FOUND);
     }
 
     return await this.artistsService.update(
@@ -67,7 +68,7 @@ export class ArtistsController {
     const artist = await this.artistsService.getById(id, DB_FIELD.ARTIST);
 
     if (!artist) {
-      throw new HttpException(MSG.ARTIST_NOT_FOUND, HttpStatus.NOT_FOUND);
+      throw new NotFoundException(MSG.ARTIST_NOT_FOUND);
     }
 
     await this.artistsService.delete(id, DB_FIELD.ARTIST);
