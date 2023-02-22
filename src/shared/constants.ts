@@ -1,4 +1,5 @@
 import { LogLevel } from '@nestjs/common';
+import * as path from 'path';
 
 export const MSG = {
   USER_NOT_FOUND: 'User not found',
@@ -44,4 +45,6 @@ export const LOG_LEVEL: Record<string, LogLevel> = {
   VERBOSE: 'verbose',
 };
 
-export const PATH_TO_LOG_FOLDER = './logs/';
+export const PATH_TO_LOGS_FOLDER = path.join('./', 'logs/');
+
+export const PATH_TO_ERRORS_FOLDER = path.join('./', 'errors/');
