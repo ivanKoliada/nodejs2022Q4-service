@@ -1,4 +1,3 @@
-import { User } from '@prisma/client';
 import { Exclude, Type } from 'class-transformer';
 
 export class UserEntity {

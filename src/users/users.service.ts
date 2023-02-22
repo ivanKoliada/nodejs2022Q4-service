@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { CreateUserDto, UpdatePasswordDto } from './users.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { User } from '@prisma/client';
 import { UserEntity } from './users.entity';
+import { compare, hash } from 'bcrypt';
 
 @Injectable()
 export class UsersService {
@@ -18,9 +18,12 @@ export class UsersService {
     });
   }
 
-  async createUser(createUserDto: CreateUserDto): Promise<UserEntity> {
+  async createUser({ login, password }: CreateUserDto): Promise<UserEntity> {
+    const saltRounds = +process.env.CRYPT_SALT;
+    const hashedPassword = await hash(password, saltRounds);
+
     return await this.prisma.user.create({
-      data: createUserDto,
+      data: { login, password: hashedPassword },
     });
   }
 
@@ -30,10 +33,21 @@ export class UsersService {
   ): Promise<UserEntity> {
     const user = await this.getUser(id);
 
-    if (user && user.password === updatePasswordDto.oldPassword) {
+    const isPasswordCorrect = await compare(
+      updatePasswordDto.oldPassword,
+      user.password,
+    );
+
+    if (user && isPasswordCorrect) {
+      const saltRounds = +process.env.CRYPT_SALT;
+      const hashedPassword = await hash(
+        updatePasswordDto.newPassword,
+        saltRounds,
+      );
+
       return await this.prisma.user.update({
         data: {
-          password: updatePasswordDto.newPassword,
+          password: hashedPassword,
           version: user.version + 1,
         },
         where: {
