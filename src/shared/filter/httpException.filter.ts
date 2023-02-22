@@ -20,13 +20,13 @@ export class HttpExceptionFilter implements ExceptionFilter {
         : HttpStatus.INTERNAL_SERVER_ERROR;
     const message = exception.message || MSG.INTERNAL_SERVER_ERROR;
 
-    const errorMessage = {
+    const responseMessage = {
       statusCode: status,
       message,
       timestamp: new Date().toISOString(),
       path: request.url,
     };
 
-    response.status(status).json(errorMessage);
+    response.status(status).json(responseMessage);
   }
 }

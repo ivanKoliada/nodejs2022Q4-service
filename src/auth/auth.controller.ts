@@ -26,7 +26,15 @@ export class AuthController {
   async signUp(@Body() signUpDto: SignUpDto) {
     const user = await this.authService.signUp(signUpDto);
 
-    return new UserEntity(user);
+    if (user) {
+      return {
+        statusCode: HttpStatus.CREATED,
+        message: MSG.USER_CREATED,
+      };
+    }
+    // const user = await this.authService.signUp(signUpDto);
+
+    // return new UserEntity(user);
   }
 
   @Public()

@@ -41,8 +41,6 @@ export class UsersService {
         },
       });
     }
-
-    return;
   }
 
   async deleteUser(id: string) {

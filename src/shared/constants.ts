@@ -20,6 +20,7 @@ export const MSG = {
   UNHANDLED_REJECTION: 'Unhandled Rejection at Promise',
   UNCAUGHT_EXCEPTION: 'Uncaught Exception thrown',
   INTERNAL_SERVER_ERROR: 'Internal server error',
+  USER_CREATED: 'User successfully created',
 };
 
 export const DB_FIELD = {

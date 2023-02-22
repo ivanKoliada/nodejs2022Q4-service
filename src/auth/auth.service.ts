@@ -23,21 +23,21 @@ export class AuthService {
   }
 
   async login({ login, password }: LoginDto): Promise<TokenEntity | undefined> {
-    const user = await this.prisma.user.findFirst({
-      where: {
-        login,
-      },
-    });
+    try {
+      const user = await this.prisma.user.findFirst({
+        where: {
+          login,
+        },
+      });
 
-    const isPasswordCorrect = await compare(password, user.password);
+      const isPasswordCorrect = await compare(password, user.password);
 
-    if (user && isPasswordCorrect) {
-      const payload = { login: user.login, sub: user.id };
+      if (user && isPasswordCorrect) {
+        const payload = { login: user.login, sub: user.id };
 
-      return await this.generateTokens(payload);
-    }
-
-    return;
+        return await this.generateTokens(payload);
+      }
+    } catch (error) {}
   }
 
   async refreshToken({
@@ -49,9 +49,7 @@ export class AuthService {
       });
 
       return await this.generateTokens({ login, sub });
-    } catch (error) {
-      return;
-    }
+    } catch (error) {}
   }
 
   async generateTokens(payload: PayloadEntity): Promise<TokenEntity> {

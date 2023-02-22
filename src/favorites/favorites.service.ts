@@ -85,9 +85,7 @@ export class FavoritesService {
           favoritesId: NIL,
         },
       });
-    } catch (error) {
-      return;
-    }
+    } catch (error) {}
   }
 
   async deleteFromFavorites(id: string, field: string) {
@@ -100,8 +98,6 @@ export class FavoritesService {
           favoritesId: null,
         },
       });
-    } catch (error) {
-      return;
-    }
+    } catch (error) {}
   }
 }
