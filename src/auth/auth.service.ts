@@ -13,13 +13,25 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async signUp(signUpDto: SignUpDto): Promise<UserEntity> {
-    const saltRounds = +process.env.CRYPT_SALT;
-    const hashedPassword = await hash(signUpDto.password, saltRounds);
+  async signUp({ login, password }: SignUpDto): Promise<UserEntity> {
+    try {
+      const user = await this.prisma.user.findFirst({
+        where: {
+          login,
+        },
+      });
 
-    return await this.prisma.user.create({
-      data: { ...signUpDto, password: hashedPassword },
-    });
+      if (user) {
+        return;
+      }
+
+      const saltRounds = +process.env.CRYPT_SALT;
+      const hashedPassword = await hash(password, saltRounds);
+
+      return await this.prisma.user.create({
+        data: { login, password: hashedPassword },
+      });
+    } catch (error) {}
   }
 
   async login({ login, password }: LoginDto): Promise<TokenEntity | undefined> {

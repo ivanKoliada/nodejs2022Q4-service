@@ -1,3 +1,4 @@
+import { BadRequestException } from '@nestjs/common';
 import {
   Body,
   ClassSerializerInterceptor,
@@ -32,6 +33,8 @@ export class AuthController {
         message: MSG.USER_CREATED,
       };
     }
+
+    throw new BadRequestException(MSG.USER_ALREADY_EXIST);
     // const user = await this.authService.signUp(signUpDto);
 
     // return new UserEntity(user);

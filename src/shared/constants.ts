@@ -21,6 +21,7 @@ export const MSG = {
   UNCAUGHT_EXCEPTION: 'Uncaught Exception thrown',
   INTERNAL_SERVER_ERROR: 'Internal server error',
   USER_CREATED: 'User successfully created',
+  USER_ALREADY_EXIST: 'User with such login already exist',
 };
 
 export const DB_FIELD = {
