@@ -19,6 +19,7 @@ export const MSG = {
   NO_REFRESH_TOKEN: 'No refreshToken in body',
   UNHANDLED_REJECTION: 'Unhandled Rejection at Promise',
   UNCAUGHT_EXCEPTION: 'Uncaught Exception thrown',
+  INTERNAL_SERVER_ERROR: 'Internal server error',
 };
 
 export const DB_FIELD = {
