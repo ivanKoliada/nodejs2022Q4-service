@@ -3,6 +3,7 @@ version: '3.9'
 services:
   api:
     container_name: api
+    image: ivankoliada/nodejs2022q4:api
     build:
       dockerfile: ./Dockerfile
       context: .
@@ -20,6 +21,7 @@ services:
       - docker-network
   database:
     container_name: database
+    image: ivankoliada/nodejs2022q4:database
     build:
       dockerfile: ./src/database/Dockerfile
       context: .

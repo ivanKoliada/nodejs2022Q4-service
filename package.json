@@ -21,7 +21,7 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "docker:start": "docker-compose up",
-    "docker:scan": "docker scan nodejs2022q4-api & docker scan nodejs2022q4-database"
+    "docker:scan": "docker scan ivankoliada/nodejs2022q4:api & docker scan ivankoliada/nodejs2022q4:database"
   },
   "dependencies": {
     "@nestjs/cli": "^9.2.0",
