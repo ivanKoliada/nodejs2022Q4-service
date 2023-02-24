@@ -13,7 +13,10 @@ export class AuthService {
     private readonly jwtService: JwtService,
   ) {}
 
-  async signUp({ login, password }: SignUpDto): Promise<UserEntity> {
+  async signUp({
+    login,
+    password,
+  }: SignUpDto): Promise<UserEntity | undefined> {
     try {
       const user = await this.prisma.user.findFirst({
         where: {

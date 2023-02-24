@@ -30,7 +30,7 @@ export class UsersService {
   async updateUser(
     id: string,
     updatePasswordDto: UpdatePasswordDto,
-  ): Promise<UserEntity> {
+  ): Promise<UserEntity | undefined> {
     const user = await this.getUser(id);
 
     const isPasswordCorrect = await compare(
