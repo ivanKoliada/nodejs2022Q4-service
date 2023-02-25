@@ -17,24 +17,12 @@ export class AuthService {
     login,
     password,
   }: SignUpDto): Promise<UserEntity | undefined> {
-    try {
-      const user = await this.prisma.user.findFirst({
-        where: {
-          login,
-        },
-      });
+    const saltRounds = +process.env.CRYPT_SALT;
+    const hashedPassword = await hash(password, saltRounds);
 
-      if (user) {
-        return;
-      }
-
-      const saltRounds = +process.env.CRYPT_SALT;
-      const hashedPassword = await hash(password, saltRounds);
-
-      return await this.prisma.user.create({
-        data: { login, password: hashedPassword },
-      });
-    } catch (error) {}
+    return await this.prisma.user.create({
+      data: { login, password: hashedPassword },
+    });
   }
 
   async login({ login, password }: LoginDto): Promise<TokenEntity | undefined> {
