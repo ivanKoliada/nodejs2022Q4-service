@@ -1,0 +1,44 @@
+version: '3.9'
+
+services:
+  api:
+    container_name: api
+    build:
+      dockerfile: ./Dockerfile
+      context: .
+    # image: ivankoliada/nodejs2022q4:api
+    volumes:
+      - .:/app
+      - node_modules:/app/node_modules
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - ${PORT}:${PORT}
+    depends_on:
+      - database
+    networks:
+      - docker-network
+  database:
+    container_name: database
+    build:
+      dockerfile: ./src/database/Dockerfile
+      context: .
+    # image: ivankoliada/nodejs2022q4:database
+    volumes:
+      - data:/var/lib/postgresql/data
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - ${POSTGRES_PORT}:${POSTGRES_PORT}
+    networks:
+      - docker-network
+
+volumes:
+  node_modules:
+  data:
+
+networks:
+  docker-network:
+    driver: bridge
